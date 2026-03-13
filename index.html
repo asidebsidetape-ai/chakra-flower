@@ -5,13 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>當花精與脈輪相遇</title>
     
-    <link rel="icon" type="image/png" href="Chakra_Flower_Project/images/favicon.png" sizes="512x512">
+    <link rel="icon" type="image/png" href="favicon.png?v=2" sizes="512x512">
     
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700&display=swap" rel="stylesheet">
     <style>
         body, html { margin: 0; padding: 0; width: 100%; height: 100%; overflow: hidden; font-family: 'Noto Sans TC', sans-serif; background-color: #000; }
         .stage { width: 100vw; height: 100vh; position: relative; display: none; background-size: cover; background-position: center; }
-        .active { display: block; }
+        .active { display: block; } 
 
         /* --- 🌸 第一頁：開場 (bg_start.jpg) --- */
         #scene1 { background-image: url('Chakra_Flower_Project/images/bg_start.jpg'); background-color: #ffeef2; }
@@ -23,7 +23,7 @@
             z-index: 20; padding: 15px 60px; background: linear-gradient(135deg, #f4aab9, #d87093); 
             color: white; border: none; border-radius: 30px; font-size: 24px; font-weight: bold; 
             cursor: pointer; box-shadow: 0 4px 15px rgba(216, 112, 147, 0.4);
-            letter-spacing: 2px; transition: 0.2s; white-space: nowrap;
+            letter-spacing: 2px; transition: 0.2s; white-space: nowrap; 
         }
         .start-btn:active { transform: translateX(-50%) scale(0.95); }
 
@@ -37,7 +37,7 @@
         .f4 { top: 65%; right: 15%; animation: enter 1.5s forwards 0.9s, float 4s infinite ease-in-out; }
         .f5 { top: 50%; left: 50%; transform: translateX(-50%); animation: enter 1.5s forwards 1.2s, float 4s infinite ease-in-out; }
 
-        /* --- ⏳ 第二頁：Loading --- */
+        /* --- ⏳ 第二頁：Loading (粉白漸層) --- */
         #scene2 { background: radial-gradient(circle, #ffffff 15%, #ffe4e9 100%); display: flex; flex-direction: column; align-items: center; justify-content: center; }
         .loader { width: 60px; height: 60px; border: 5px solid #fae1e8; border-top: 5px solid #d87093; border-radius: 50%; animation: spin 1s linear infinite; }
         @keyframes spin { to { transform: rotate(360deg); } }
@@ -62,7 +62,6 @@
             background: rgba(255, 255, 255, 0.3);
         }
 
-        /* 配合新圖的精密座標 */
         #c-crown { top: 13.5%; }
         #c-brow { top: 24.5%; }
         #c-throat { top: 35.5%; }
@@ -75,7 +74,7 @@
             position: absolute; bottom: 3%; left: 50%; transform: translateX(-50%);
             width: 80%; max-width: 380px; z-index: 10;
             background: rgba(255, 255, 255, 0.6); border-radius: 20px; padding: 15px 15px; 
-            box-shadow: 0 4px 15px rgba(216, 112, 147, 0.1);
+            box-shadow: 0 4px 15px rgba(216, 112, 147, 0.1); border: none; 
             backdrop-filter: blur(8px); display: flex; flex-direction: column;
         }
         
@@ -86,14 +85,17 @@
             font-size: 28px; color: #d87093; font-weight: 700; flex-shrink: 0; font-style: italic;
         }
         .f-text-group { flex-grow: 1; text-align: left; }
+        
         .f-title-group { color: #4a4a4a; font-size: 28px; font-weight: 700; margin: 0 0 5px 0; letter-spacing: 1px; }
         .f-title-en { color: #aaa; font-size: 16px; margin-left: 10px; font-style: italic; font-weight: 400; }
+        
         .f-desc { color: #555; font-size: 17px; line-height: 1.6; margin: 0; font-weight: 500;}
 
         .btn-group { display: flex; justify-content: center; gap: 15px; }
         .sub-btn { padding: 12px 0; width: 45%; border-radius: 25px; font-size: 16px; font-weight: bold; cursor: pointer; transition: 0.2s; border: none; }
-        .btn-home { background: #f5f5f5; color: #888; }
-        .btn-again { background: linear-gradient(135deg, #fbe3eb, #f5cdd8); color: #a86c7d; }
+        .btn-home { background: #f5f5f5; color: #888; box-shadow: 0 4px 10px rgba(0,0,0,0.05); }
+        .btn-again { background: linear-gradient(135deg, #fbe3eb, #f5cdd8); color: #a86c7d; box-shadow: 0 4px 10px rgba(216,112,147,0.15); }
+        .sub-btn:active { transform: scale(0.95); }
     </style>
 </head>
 <body>
@@ -102,11 +104,11 @@
         <div class="title-text">讓花精溫柔聆聽脈輪能量</div>
         <button class="start-btn" onclick="startMagic()">花精指引</button>
 
-        <img src="Chakra_Flower_Project/images/flower_01.png" class="flower-spirit f1">
-        <img src="Chakra_Flower_Project/images/flower_02.png" class="flower-spirit f2">
-        <img src="Chakra_Flower_Project/images/flower_03.png" class="flower-spirit f3">
-        <img src="Chakra_Flower_Project/images/flower_04.png" class="flower-spirit f4">
-        <img src="Chakra_Flower_Project/images/flower_05.png" class="flower-spirit f5">
+        <img src="Chakra_Flower_Project/images/flower_01.png" class="flower-spirit f1" onerror="this.style.display='none'">
+        <img src="Chakra_Flower_Project/images/flower_02.png" class="flower-spirit f2" onerror="this.style.display='none'">
+        <img src="Chakra_Flower_Project/images/flower_03.png" class="flower-spirit f3" onerror="this.style.display='none'">
+        <img src="Chakra_Flower_Project/images/flower_04.png" class="flower-spirit f4" onerror="this.style.display='none'">
+        <img src="Chakra_Flower_Project/images/flower_05.png" class="flower-spirit f5" onerror="this.style.display='none'">
     </div>
 
     <div id="scene2" class="stage">
@@ -116,8 +118,9 @@
 
     <div id="scene3" class="stage">
         <div class="hint-text">點擊脈輪 聆聽花語</div>
+        
         <div class="human-body">
-            <img src="Chakra_Flower_Project/images/human_aura.png" class="human-img">
+            <img src="Chakra_Flower_Project/images/human_aura.png" class="human-img" alt="脈輪人體">
             <div id="c-crown" class="chakra-dot" onclick="showChakra('crown')"></div>
             <div id="c-brow" class="chakra-dot" onclick="showChakra('brow')"></div>
             <div id="c-throat" class="chakra-dot" onclick="showChakra('throat')"></div>
@@ -131,7 +134,7 @@
             <div class="info-content">
                 <div class="f-image-placeholder" id="fNumPlaceholder"></div>
                 <div class="f-text-group">
-                    <h2 id="fTitleGroup" class="f-title-group"></h2>
+                    <h2 id="fTitleGroup" class="f-title-group"></h2> 
                     <p id="fText" class="f-desc"></p>
                 </div>
             </div>
@@ -143,6 +146,7 @@
     </div>
 
 <script>
+    // 38朵花精資料
     const flowerList = [
         { num: "01", name: "龍芽草", en: "Agrimony", text: "在平靜的笑容背後，隱藏著內心的煎熬與焦慮。" },
         { num: "02", name: "白楊", en: "Aspen", text: "面對未知的恐懼，找回內心的安全感與勇氣。" },
@@ -190,26 +194,35 @@
     function startMagic() {
         document.getElementById('scene1').style.display = 'none';
         document.getElementById('scene3').style.display = 'none';
-        document.getElementById('scene2').style.display = 'flex';
+        document.getElementById('scene2').style.display = 'flex'; 
         
         setTimeout(() => {
             document.getElementById('scene2').style.display = 'none';
-            document.getElementById('scene3').style.display = 'block';
+            document.getElementById('scene3').style.display = 'block'; 
+            
+            // 隨機抽選 7 朵不重複
             let shuffled = [...flowerList].sort(() => 0.5 - Math.random());
             currentSessionFlowers = {
                 'crown': shuffled[0], 'brow': shuffled[1], 'throat': shuffled[2],
                 'heart': shuffled[3], 'solar': shuffled[4], 'sacral': shuffled[5], 'root': shuffled[6]
             };
-            showChakra('crown');
+            
+            showChakra('crown'); // 預設顯示頂輪
         }, 2200);
     }
 
     function showChakra(part) {
         const flower = currentSessionFlowers[part];
+        
+        // 更新資訊框：中英文並排
         document.getElementById('fNumPlaceholder').innerText = flower.num;
         document.getElementById('fTitleGroup').innerHTML = `${flower.name}<span class="f-title-en">${flower.en}</span>`; 
         document.getElementById('fText').innerText = flower.text;
+
+        // 清除所有脈輪點的光暈
         parts.forEach(p => document.getElementById(`c-${p}`).classList.remove('active-chakra'));
+        
+        // 讓目前點擊的部位發光
         document.getElementById(`c-${part}`).classList.add('active-chakra');
     }
 </script>
