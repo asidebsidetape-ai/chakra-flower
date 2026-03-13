@@ -5,24 +5,23 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>當花精與脈輪相遇</title>
     
-    <link rel="icon" type="image/png" href="favicon.png?v=3" sizes="512x512">
+    <link rel="icon" type="image/png" href="favicon.png?v=4" sizes="512x512">
     
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700&display=swap" rel="stylesheet">
     <style>
         body, html { margin: 0; padding: 0; width: 100%; height: 100%; overflow: hidden; font-family: 'Noto Sans TC', sans-serif; background-color: #000; }
         .stage { width: 100vw; height: 100vh; position: relative; display: none; background-size: cover; background-position: center; }
-        .active { display: block; } 
+        .active { display: block; }
 
-        /* --- 🌸 第一頁：開場 (bg_start.jpg) --- */
+        /* --- 🌸 第一頁：開場 (保留你完美的配置) --- */
         #scene1 { background-image: url('Chakra_Flower_Project/images/bg_start.jpg'); background-color: #ffeef2; }
         
-        /* 💡 加上 pointer-events: none 防止文字框擋住花朵或按鈕 */
-        .title-text { position: absolute; top: 10%; width: 100%; text-align: center; color: #c6879e; font-size: 26px; font-weight: 700; text-shadow: 0 0 10px rgba(255,255,255,0.8); z-index: 10; letter-spacing: 2px; pointer-events: none; }
+        .title-text { position: absolute; bottom: 25%; width: 100%; text-align: center; color: #c6879e; font-size: 26px; font-weight: 700; text-shadow: 0 0 10px rgba(255,255,255,0.8); z-index: 10; letter-spacing: 2px; pointer-events: none; }
         
         .start-btn { 
-            position: absolute; bottom: 15%; left: 50%; transform: translateX(-50%);
-            z-index: 20; padding: 15px 60px; background: linear-gradient(135deg, #f4aab9, #d87093); 
-            color: white; border: none; border-radius: 30px; font-size: 24px; font-weight: bold; 
+            position: absolute; bottom: 12%; left: 50%; transform: translateX(-50%);
+            z-index: 20; padding: 15px 50px; background: linear-gradient(135deg, #f4aab9, #d87093); 
+            color: white; border: none; border-radius: 30px; font-size: 22px; font-weight: bold; 
             cursor: pointer; box-shadow: 0 4px 15px rgba(216, 112, 147, 0.4);
             letter-spacing: 2px; transition: 0.2s; white-space: nowrap; 
         }
@@ -32,32 +31,33 @@
         @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-15px); } }
         @keyframes enter { from { opacity: 0; transform: scale(0.5); } to { opacity: 1; transform: scale(1); } }
         
-        .f1 { top: 35%; left: 15%; animation: enter 1.5s forwards, float 4s infinite ease-in-out; }
-        .f2 { top: 40%; right: 20%; animation: enter 1.5s forwards 0.3s, float 4s infinite ease-in-out; }
-        .f3 { top: 60%; left: 10%; animation: enter 1.5s forwards 0.6s, float 4s infinite ease-in-out; }
-        .f4 { top: 65%; right: 15%; animation: enter 1.5s forwards 0.9s, float 4s infinite ease-in-out; }
-        .f5 { top: 50%; left: 50%; transform: translateX(-50%); animation: enter 1.5s forwards 1.2s, float 4s infinite ease-in-out; }
+        .f1 { top: 12%; left: 15%; animation: enter 1.5s forwards, float 4s infinite ease-in-out; }
+        .f2 { top: 8%; right: 18%; animation: enter 1.5s forwards 0.3s, float 4s infinite ease-in-out; }
+        .f3 { top: 32%; left: 10%; animation: enter 1.5s forwards 0.6s, float 4s infinite ease-in-out; }
+        .f4 { top: 35%; right: 12%; animation: enter 1.5s forwards 0.9s, float 4s infinite ease-in-out; }
+        .f5 { top: 22%; left: 50%; transform: translateX(-50%); animation: enter 1.5s forwards 1.2s, float 4s infinite ease-in-out; }
 
-        /* --- ⏳ 第二頁：Loading (粉白漸層) --- */
+        /* --- ⏳ 第二頁：Loading --- */
         #scene2 { background: radial-gradient(circle, #ffffff 15%, #ffe4e9 100%); display: flex; flex-direction: column; align-items: center; justify-content: center; }
         .loader { width: 60px; height: 60px; border: 5px solid #fae1e8; border-top: 5px solid #d87093; border-radius: 50%; animation: spin 1s linear infinite; }
         @keyframes spin { to { transform: rotate(360deg); } }
 
-        /* --- ✨ 第三頁：結果畫面 (bg_main.jpg + human_aura.png) --- */
+        /* --- ✨ 第三頁：結果畫面 --- */
         #scene3 { background-image: url('Chakra_Flower_Project/images/bg_main.jpg'); background-color: #e2eaf5; }
         
-        /* 💡 加上 pointer-events: none 徹底解決頂輪被玻璃擋住的問題 */
+        /* 加入 pointer-events: none，這行字再也擋不住你的頂輪 */
         .hint-text { position: absolute; top: 7%; width: 100%; text-align: center; font-size: 22px; color: #b188a6; font-weight: bold; letter-spacing: 2px; text-shadow: 0 0 10px rgba(255,255,255,0.8); pointer-events: none; z-index: 2; }
         
+        /* 🚨 保留你 100% 成功的人體比例與位置 🚨 */
         .human-body { 
-            position: absolute; top: 43%; left: 50%; transform: translate(-50%, -50%);
-            width: 86%; max-width: 370px; z-index: 1;
+            position: absolute; top: 44%; left: 50%; transform: translate(-50%, -50%);
+            width: 75%; max-width: 320px; z-index: 1;
         }
         .human-img { width: 100%; display: block; filter: drop-shadow(0 0 15px rgba(255,255,255,0.5)); pointer-events: none; }
         
-        /* 💡 擴大點擊感應區塊，並讓中心點精準對齊 */
+        /* 🚨 保留你 100% 成功的按鈕模式 🚨 */
         .chakra-dot { 
-            position: absolute; width: 60px; height: 60px; left: 50%; transform: translate(-50%, -50%); 
+            position: absolute; width: 45px; height: 45px; left: 50%; transform: translateX(-50%); 
             cursor: pointer; border-radius: 50%; background: transparent; transition: 0.3s; z-index: 15;
         }
         .chakra-dot.active-chakra { 
@@ -65,15 +65,16 @@
             background: rgba(255, 255, 255, 0.3);
         }
 
-        /* 完美對準水彩圖的中心點座標 */
-        #c-crown { top: 15%; }
-        #c-brow { top: 26%; }
-        #c-throat { top: 37%; }
-        #c-heart { top: 48%; }
-        #c-solar { top: 59%; }
-        #c-sacral { top: 70%; }
-        #c-root { top: 81%; }
+        /* 🚨 保留你 100% 成功的精準座標 🚨 */
+        #c-crown { top: 3%; }
+        #c-brow { top: 15%; }
+        #c-throat { top: 28%; }
+        #c-heart { top: 41%; }
+        #c-solar { top: 54%; }
+        #c-sacral { top: 67%; }
+        #c-root { top: 80%; }
 
+        /* --- 🌸 美化版：底部半透明磨砂玻璃資訊框 --- */
         .info-box { 
             position: absolute; bottom: 3%; left: 50%; transform: translateX(-50%);
             width: 80%; max-width: 380px; z-index: 20;
@@ -90,10 +91,10 @@
         }
         .f-text-group { flex-grow: 1; text-align: left; }
         
-        .f-title-group { color: #4a4a4a; font-size: 28px; font-weight: 700; margin: 0 0 5px 0; letter-spacing: 1px; }
-        .f-title-en { color: #aaa; font-size: 16px; margin-left: 10px; font-style: italic; font-weight: 400; }
-        
-        .f-desc { color: #555; font-size: 17px; line-height: 1.6; margin: 0; font-weight: 500;}
+        /* 中英文並排設計 */
+        .f-title-group { color: #4a4a4a; font-size: 24px; font-weight: 700; margin: 0 0 5px 0; letter-spacing: 1px; }
+        .f-title-en { color: #aaa; font-size: 14px; margin-left: 10px; font-style: italic; font-weight: 400; }
+        .f-desc { color: #555; font-size: 16px; line-height: 1.5; margin: 0; font-weight: 500;}
 
         .btn-group { display: flex; justify-content: center; gap: 15px; }
         .sub-btn { padding: 12px 0; width: 45%; border-radius: 25px; font-size: 16px; font-weight: bold; cursor: pointer; transition: 0.2s; border: none; }
@@ -105,14 +106,14 @@
 <body>
 
     <div id="scene1" class="stage active">
-        <div class="title-text">讓花精溫柔聆聽脈輪能量</div>
-        <button class="start-btn" onclick="startMagic()">花精指引</button>
-
         <img src="Chakra_Flower_Project/images/flower_01.png" class="flower-spirit f1" onerror="this.style.display='none'">
         <img src="Chakra_Flower_Project/images/flower_02.png" class="flower-spirit f2" onerror="this.style.display='none'">
         <img src="Chakra_Flower_Project/images/flower_03.png" class="flower-spirit f3" onerror="this.style.display='none'">
         <img src="Chakra_Flower_Project/images/flower_04.png" class="flower-spirit f4" onerror="this.style.display='none'">
         <img src="Chakra_Flower_Project/images/flower_05.png" class="flower-spirit f5" onerror="this.style.display='none'">
+        
+        <div class="title-text">讓花精溫柔聆聽脈輪能量</div>
+        <button class="start-btn" onclick="startMagic()">花精指引</button>
     </div>
 
     <div id="scene2" class="stage">
@@ -138,7 +139,7 @@
             <div class="info-content">
                 <div class="f-image-placeholder" id="fNumPlaceholder"></div>
                 <div class="f-text-group">
-                    <h2 id="fTitleGroup" class="f-title-group"></h2> 
+                    <h2 id="fTitleGroup" class="f-title-group"></h2>
                     <p id="fText" class="f-desc"></p>
                 </div>
             </div>
@@ -150,14 +151,13 @@
     </div>
 
 <script>
-    // 38朵花精資料
     const flowerList = [
         { num: "01", name: "龍芽草", en: "Agrimony", text: "在平靜的笑容背後，隱藏著內心的煎熬與焦慮。" },
         { num: "02", name: "白楊", en: "Aspen", text: "面對未知的恐懼，找回內心的安全感與勇氣。" },
         { num: "03", name: "山毛櫸", en: "Beech", text: "練習寬容與理解，看見他人與自己的美好。" },
         { num: "04", name: "矢車菊", en: "Centaury", text: "學會拒絕，找回自主權，不再盲目順從。" },
         { num: "05", name: "水蕨", en: "Cerato", text: "信任直覺，不再為了尋求認可而猶豫不決。" },
-        { num: "06", name: "櫻桃李", en: "Cherry Plum", text: "放鬆緊繃的心，找回壓力下的情緒平衡。" },
+        { num: "06", name: "櫻桃李", en: "Cherry Plum", text: "放鬆緊繃的心，找回在壓力下的情緒平衡。" },
         { num: "07", name: "栗樹芽孢", en: "Chestnut Bud", text: "從經驗中學習，避免重複同樣的錯誤模式。" },
         { num: "08", name: "菊苣", en: "Chicory", text: "學習無私的愛，放下對他人的掌控與依賴。" },
         { num: "09", name: "鐵線蓮", en: "Clematis", text: "腳踏實地，將夢想轉化為現實的行動力。" },
@@ -176,7 +176,7 @@
         { num: "22", name: "橡樹", en: "Oak", text: "學會休息，讓疲憊的身心得到適當的修復。" },
         { num: "23", name: "橄欖", en: "Olive", text: "深層修復身心耗竭，找回遺失的能量來源。" },
         { num: "24", name: "松樹", en: "Pine", text: "放下罪惡感，學會原諒自己並接受關愛。" },
-        { num: "25", name: "紅栗子", en: "Red Chestnut", text: "放下親友的過度擔心，用信任取代憂慮。" },
+        { num: "25", name: "紅栗子", en: "Red Chestnut", text: "放下對親友的過度擔心，用信任取代憂慮。" },
         { num: "26", name: "岩薔薇", en: "Rock Rose", text: "在極度恐慌中找回鎮定，平復強烈的衝擊。" },
         { num: "27", name: "巖水", en: "Rock Water", text: "放下嚴苛的自我要求，享受生命中的彈性。" },
         { num: "28", name: "線球草", en: "Scleranthus", text: "在選擇中不再搖擺，找回決斷的定力。" },
@@ -187,7 +187,7 @@
         { num: "33", name: "胡桃", en: "Walnut", text: "在變動期保護自我能量，勇敢邁向新人生。" },
         { num: "34", name: "水紫羅蘭", en: "Water Violet", text: "放下疏離感，與他人共享智慧與溫暖。" },
         { num: "35", name: "白栗子", en: "White Chestnut", text: "停下反覆煩惱的思緒，找回平靜的心境。" },
-        { num: "36", name: "野生燕麥", en: "Wild Oat", text: "釐清人生方向，找到能發揮天賦的道路。" },
+        { num: "36", name: "野生燕麥", en: "Wild Oat", text: "釐清人生方向，找到真正能發揮天賦的道路。" },
         { num: "37", name: "野玫瑰", en: "Wild Rose", text: "告別消極被動，重燃對生命的熱情與喜悅。" },
         { num: "38", name: "柳樹", en: "Willow", text: "放下怨懟與不平，掌握自己命運的舵手。" }
     ];
@@ -204,29 +204,26 @@
             document.getElementById('scene2').style.display = 'none';
             document.getElementById('scene3').style.display = 'block'; 
             
-            // 隨機抽選 7 朵不重複
             let shuffled = [...flowerList].sort(() => 0.5 - Math.random());
             currentSessionFlowers = {
                 'crown': shuffled[0], 'brow': shuffled[1], 'throat': shuffled[2],
                 'heart': shuffled[3], 'solar': shuffled[4], 'sacral': shuffled[5], 'root': shuffled[6]
             };
             
-            showChakra('crown'); // 預設顯示頂輪
+            showChakra('crown'); 
         }, 2200);
     }
 
     function showChakra(part) {
         const flower = currentSessionFlowers[part];
         
-        // 更新資訊框：中英文並排
         document.getElementById('fNumPlaceholder').innerText = flower.num;
+        // 中英文並排寫入
         document.getElementById('fTitleGroup').innerHTML = `${flower.name}<span class="f-title-en">${flower.en}</span>`; 
         document.getElementById('fText').innerText = flower.text;
 
-        // 清除所有脈輪點的光暈
         parts.forEach(p => document.getElementById(`c-${p}`).classList.remove('active-chakra'));
         
-        // 讓目前點擊的部位發光
         document.getElementById(`c-${part}`).classList.add('active-chakra');
     }
 </script>
