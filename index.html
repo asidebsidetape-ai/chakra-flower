@@ -8,15 +8,15 @@
     <style>
         body, html { margin: 0; padding: 0; width: 100%; height: 100%; overflow: hidden; font-family: 'Noto Sans TC', sans-serif; background-color: #000; }
         .stage { width: 100vw; height: 100vh; position: relative; display: none; background-size: cover; background-position: center; }
-        .active { display: block; } /* 改回 block 方便絕對定位 */
+        .active { display: block; } /* 使用 block 方便絕對定位 */
 
-        /* --- 🌸 第一頁：開場 --- */
+        /* --- 🌸 第一頁：開場 (bg_start.jpg) --- */
         #scene1 { background-image: url('Chakra_Flower_Project/images/bg_start.jpg'); background-color: #ffeef2; }
         
-        /* 標題與按鈕往下放 */
-        .title-text { position: absolute; bottom: 25%; width: 100%; text-align: center; color: #c6879e; font-size: 26px; font-weight: 700; text-shadow: 0 0 10px rgba(255,255,255,0.8); z-index: 10; letter-spacing: 2px;}
+        /* 恢復原本平衡的位置：標題在最上面，按鈕在下半部 */
+        .title-text { position: absolute; top: 10%; width: 100%; text-align: center; color: #c6879e; font-size: 26px; font-weight: 700; text-shadow: 0 0 10px rgba(255,255,255,0.8); z-index: 10; letter-spacing: 2px;}
         .start-btn { 
-            position: absolute; bottom: 12%; left: 50%; transform: translateX(-50%);
+            position: absolute; bottom: 20%; left: 50%; transform: translateX(-50%);
             z-index: 20; padding: 15px 50px; background: linear-gradient(135deg, #f4aab9, #d87093); 
             color: white; border: none; border-radius: 30px; font-size: 22px; font-weight: bold; 
             cursor: pointer; box-shadow: 0 4px 15px rgba(216, 112, 147, 0.4);
@@ -24,36 +24,37 @@
         }
         .start-btn:active { transform: translateX(-50%) scale(0.95); }
 
-        /* 五朵花集中在上半部的空白處 */
+        /* 五朵花在標題與按鈕中間的白色空白處漂浮分散 */
         .flower-spirit { width: 85px; position: absolute; animation: float 4s infinite ease-in-out; opacity: 0; z-index: 5; }
         @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-15px); } }
         @keyframes enter { from { opacity: 0; transform: scale(0.5); } to { opacity: 1; transform: scale(1); } }
         
-        .f1 { top: 12%; left: 15%; animation: enter 1.5s forwards, float 4s infinite ease-in-out; }
-        .f2 { top: 8%; right: 18%; animation: enter 1.5s forwards 0.3s, float 4s infinite ease-in-out; }
-        .f3 { top: 32%; left: 10%; animation: enter 1.5s forwards 0.6s, float 4s infinite ease-in-out; }
-        .f4 { top: 35%; right: 12%; animation: enter 1.5s forwards 0.9s, float 4s infinite ease-in-out; }
-        .f5 { top: 22%; left: 50%; transform: translateX(-50%); animation: enter 1.5s forwards 1.2s, float 4s infinite ease-in-out; }
+        /* 分散在空白區域 */
+        .f1 { top: 30%; left: 15%; animation: enter 1.5s forwards, float 4s infinite ease-in-out; }
+        .f2 { top: 35%; right: 20%; animation: enter 1.5s forwards 0.3s, float 4s infinite ease-in-out; }
+        .f3 { top: 60%; left: 10%; animation: enter 1.5s forwards 0.6s, float 4s infinite ease-in-out; }
+        .f4 { top: 65%; right: 15%; animation: enter 1.5s forwards 0.9s, float 4s infinite ease-in-out; }
+        .f5 { top: 48%; left: 50%; transform: translateX(-50%); animation: enter 1.5s forwards 1.2s, float 4s infinite ease-in-out; }
 
         /* --- ⏳ 第二頁：Loading (改成粉白漸層) --- */
         #scene2 { background: radial-gradient(circle, #ffffff 15%, #ffe4e9 100%); display: flex; flex-direction: column; align-items: center; justify-content: center; }
         .loader { width: 60px; height: 60px; border: 5px solid #fae1e8; border-top: 5px solid #d87093; border-radius: 50%; animation: spin 1s linear infinite; }
         @keyframes spin { to { transform: rotate(360deg); } }
 
-        /* --- ✨ 第三頁：結果畫面 --- */
+        /* --- ✨ 第三頁：結果畫面 (bg_main.jpg + human_aura.png) --- */
         #scene3 { background-image: url('Chakra_Flower_Project/images/bg_main.jpg'); background-color: #e2eaf5; }
         
         /* 頂部文字 */
         .hint-text { position: absolute; top: 7%; width: 100%; text-align: center; font-size: 22px; color: #b188a6; font-weight: bold; letter-spacing: 2px; text-shadow: 0 0 10px rgba(255,255,255,0.8); }
         
-        /* 人體圖：完美置中於頂部文字與底部框之間 */
+        /* 人體圖：加大15%，並完美置中於頂部文字與底部框之間 */
         .human-body { 
-            position: absolute; top: 44%; left: 50%; transform: translate(-50%, -50%);
-            width: 75%; max-width: 320px; z-index: 1;
+            position: absolute; top: 43%; left: 50%; transform: translate(-50%, -50%); /* 增加Figure尺寸並微調位置 */
+            width: 86%; /* 加大15% width: 75% -> 86% */ max-width: 370px; /* 加大15% max-width: 320px -> 370px */ z-index: 1;
         }
         .human-img { width: 100%; display: block; filter: drop-shadow(0 0 15px rgba(255,255,255,0.5)); }
         
-        /* 隱形的脈輪按鈕，點擊後會有粉色光暈 */
+        /* 重新對齊發光圓圈按鈕的位置 (配合加大後的人體圖) */
         .chakra-dot { 
             position: absolute; width: 45px; height: 45px; left: 50%; transform: translateX(-50%); 
             cursor: pointer; border-radius: 50%; background: transparent; transition: 0.3s; z-index: 5;
@@ -63,16 +64,16 @@
             background: rgba(255, 255, 255, 0.3);
         }
 
-        /* 脈輪位置微調 */
-        #c-crown { top: 3%; }
-        #c-brow { top: 15%; }
-        #c-throat { top: 28%; }
-        #c-heart { top: 41%; }
-        #c-solar { top: 54%; }
-        #c-sacral { top: 67%; }
-        #c-root { top: 80%; }
+        /* ⚠️ 配合圖加大，點的位置需要重新微調 (垂直方向) */
+        #c-crown { top: 4%; }
+        #c-brow { top: 16%; }
+        #c-throat { top: 29%; }
+        #c-heart { top: 42%; }
+        #c-solar { top: 55%; }
+        #c-sacral { top: 68%; }
+        #c-root { top: 81%; }
 
-        /* 底部資訊框 */
+        /* 底部資訊框 (不變) */
         .info-box { 
             position: absolute; bottom: 4%; left: 50%; transform: translateX(-50%);
             width: 85%; max-width: 400px; z-index: 10;
@@ -81,23 +82,17 @@
             backdrop-filter: blur(8px); display: flex; flex-direction: column;
         }
         
-        /* 圖片佔位與文字排版 */
+        /* 圖片佔位與文字排版 (不變) */
         .info-content { display: flex; align-items: center; margin-bottom: 25px; gap: 15px; }
-        
-        /* 左側：未來放圖的位子，現在先放好看的數字 */
         .f-image-placeholder {
             width: 75px; height: 75px; border-radius: 50%; background: #fdf5f7; 
             border: 2px dashed #e7aebf; display: flex; align-items: center; justify-content: center;
             font-size: 28px; color: #d87093; font-weight: 700; flex-shrink: 0; font-style: italic;
         }
-        
-        /* 右側：文案區 */
         .f-text-group { flex-grow: 1; text-align: left; }
         .f-title { color: #4a4a4a; font-size: 24px; font-weight: 700; margin: 0 0 3px 0; letter-spacing: 1px; }
         .f-subtitle { color: #aaa; font-size: 13px; margin: 0 0 8px 0; font-style: italic; }
         .f-desc { color: #555; font-size: 15px; line-height: 1.5; margin: 0; font-weight: 500;}
-        
-        /* 底部按鈕群 */
         .btn-group { display: flex; justify-content: center; gap: 15px; }
         .sub-btn { padding: 12px 0; width: 45%; border-radius: 25px; font-size: 16px; font-weight: bold; cursor: pointer; transition: 0.2s; border: none; }
         .btn-home { background: #f5f5f5; color: #888; box-shadow: 0 4px 10px rgba(0,0,0,0.05); }
@@ -108,14 +103,14 @@
 <body>
 
     <div id="scene1" class="stage active">
+        <div class="title-text">讓花精溫柔聆聽脈輪能量</div>
+        <button class="start-btn" onclick="startMagic()">花精指引</button>
+
         <img src="Chakra_Flower_Project/images/flower_01.png" class="flower-spirit f1" onerror="this.style.display='none'">
         <img src="Chakra_Flower_Project/images/flower_02.png" class="flower-spirit f2" onerror="this.style.display='none'">
         <img src="Chakra_Flower_Project/images/flower_03.png" class="flower-spirit f3" onerror="this.style.display='none'">
         <img src="Chakra_Flower_Project/images/flower_04.png" class="flower-spirit f4" onerror="this.style.display='none'">
         <img src="Chakra_Flower_Project/images/flower_05.png" class="flower-spirit f5" onerror="this.style.display='none'">
-        
-        <div class="title-text">讓花精溫柔聆聽脈輪能量</div>
-        <button class="start-btn" onclick="startMagic()">花精指引</button>
     </div>
 
     <div id="scene2" class="stage">
@@ -140,14 +135,12 @@
         <div class="info-box">
             <div class="info-content">
                 <div class="f-image-placeholder" id="fNumPlaceholder"></div>
-                
                 <div class="f-text-group">
                     <h2 id="fName" class="f-title"></h2>
                     <p id="fSubtitle" class="f-subtitle"></p>
                     <p id="fText" class="f-desc"></p>
                 </div>
             </div>
-            
             <div class="btn-group">
                 <button class="sub-btn btn-home" onclick="location.reload()">回首頁</button>
                 <button class="sub-btn btn-again" onclick="startMagic()">再次指引</button>
@@ -227,7 +220,7 @@
         // 更新下方資訊框內容
         document.getElementById('fNumPlaceholder').innerText = flower.num;
         document.getElementById('fName').innerText = flower.name;
-        document.getElementById('fSubtitle').innerText = flower.en; // ✅ 修正：現在只顯示純英文
+        document.getElementById('fSubtitle').innerText = flower.en; // 只顯示純英文
         document.getElementById('fText').innerText = flower.text;
 
         // 清除所有脈輪點的光暈
