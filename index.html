@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>當花精與脈輪相遇</title>
     
-    <link rel="icon" type="image/png" href="favicon.png?v=2" sizes="512x512">
+    <link rel="icon" type="image/png" href="favicon.png?v=3" sizes="512x512">
     
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700&display=swap" rel="stylesheet">
     <style>
@@ -16,7 +16,8 @@
         /* --- 🌸 第一頁：開場 (bg_start.jpg) --- */
         #scene1 { background-image: url('Chakra_Flower_Project/images/bg_start.jpg'); background-color: #ffeef2; }
         
-        .title-text { position: absolute; top: 10%; width: 100%; text-align: center; color: #c6879e; font-size: 26px; font-weight: 700; text-shadow: 0 0 10px rgba(255,255,255,0.8); z-index: 10; letter-spacing: 2px;}
+        /* 💡 加上 pointer-events: none 防止文字框擋住花朵或按鈕 */
+        .title-text { position: absolute; top: 10%; width: 100%; text-align: center; color: #c6879e; font-size: 26px; font-weight: 700; text-shadow: 0 0 10px rgba(255,255,255,0.8); z-index: 10; letter-spacing: 2px; pointer-events: none; }
         
         .start-btn { 
             position: absolute; bottom: 15%; left: 50%; transform: translateX(-50%);
@@ -27,7 +28,7 @@
         }
         .start-btn:active { transform: translateX(-50%) scale(0.95); }
 
-        .flower-spirit { width: 85px; position: absolute; animation: float 4s infinite ease-in-out; opacity: 0; z-index: 5; }
+        .flower-spirit { width: 85px; position: absolute; animation: float 4s infinite ease-in-out; opacity: 0; z-index: 5; pointer-events: none; }
         @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-15px); } }
         @keyframes enter { from { opacity: 0; transform: scale(0.5); } to { opacity: 1; transform: scale(1); } }
         
@@ -45,34 +46,37 @@
         /* --- ✨ 第三頁：結果畫面 (bg_main.jpg + human_aura.png) --- */
         #scene3 { background-image: url('Chakra_Flower_Project/images/bg_main.jpg'); background-color: #e2eaf5; }
         
-        .hint-text { position: absolute; top: 7%; width: 100%; text-align: center; font-size: 22px; color: #b188a6; font-weight: bold; letter-spacing: 2px; text-shadow: 0 0 10px rgba(255,255,255,0.8); }
+        /* 💡 加上 pointer-events: none 徹底解決頂輪被玻璃擋住的問題 */
+        .hint-text { position: absolute; top: 7%; width: 100%; text-align: center; font-size: 22px; color: #b188a6; font-weight: bold; letter-spacing: 2px; text-shadow: 0 0 10px rgba(255,255,255,0.8); pointer-events: none; z-index: 2; }
         
         .human-body { 
             position: absolute; top: 43%; left: 50%; transform: translate(-50%, -50%);
             width: 86%; max-width: 370px; z-index: 1;
         }
-        .human-img { width: 100%; display: block; filter: drop-shadow(0 0 15px rgba(255,255,255,0.5)); }
+        .human-img { width: 100%; display: block; filter: drop-shadow(0 0 15px rgba(255,255,255,0.5)); pointer-events: none; }
         
+        /* 💡 擴大點擊感應區塊，並讓中心點精準對齊 */
         .chakra-dot { 
-            position: absolute; width: 45px; height: 45px; left: 50%; transform: translateX(-50%); 
-            cursor: pointer; border-radius: 50%; background: transparent; transition: 0.3s; z-index: 5;
+            position: absolute; width: 60px; height: 60px; left: 50%; transform: translate(-50%, -50%); 
+            cursor: pointer; border-radius: 50%; background: transparent; transition: 0.3s; z-index: 15;
         }
         .chakra-dot.active-chakra { 
             box-shadow: 0 0 25px 10px rgba(230, 143, 169, 0.6); 
             background: rgba(255, 255, 255, 0.3);
         }
 
-        #c-crown { top: 13.5%; }
-        #c-brow { top: 24.5%; }
-        #c-throat { top: 35.5%; }
-        #c-heart { top: 46.5%; }
-        #c-solar { top: 57.5%; }
-        #c-sacral { top: 68.5%; }
-        #c-root { top: 79.5%; }
+        /* 完美對準水彩圖的中心點座標 */
+        #c-crown { top: 15%; }
+        #c-brow { top: 26%; }
+        #c-throat { top: 37%; }
+        #c-heart { top: 48%; }
+        #c-solar { top: 59%; }
+        #c-sacral { top: 70%; }
+        #c-root { top: 81%; }
 
         .info-box { 
             position: absolute; bottom: 3%; left: 50%; transform: translateX(-50%);
-            width: 80%; max-width: 380px; z-index: 10;
+            width: 80%; max-width: 380px; z-index: 20;
             background: rgba(255, 255, 255, 0.6); border-radius: 20px; padding: 15px 15px; 
             box-shadow: 0 4px 15px rgba(216, 112, 147, 0.1); border: none; 
             backdrop-filter: blur(8px); display: flex; flex-direction: column;
