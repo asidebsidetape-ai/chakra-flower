@@ -1,91 +1,221 @@
 <!DOCTYPE html>
-<html lang="zh-Hant">
+<html lang="zh-TW">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>脈輪花精測試</title>
+    <title>當花精與脈輪相遇</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700&display=swap" rel="stylesheet">
     <style>
-        /* 基礎全螢幕設定 */
-        body, html { 
-            margin: 0; padding: 0; width: 100%; height: 100%; 
-            background: #000; overflow: hidden;
-            display: flex; justify-content: center; align-items: center;
-        }
+        body, html { margin: 0; padding: 0; width: 100%; height: 100%; overflow: hidden; font-family: 'Noto Sans TC', sans-serif; background-color: #000; }
+        .stage { width: 100vw; height: 100vh; position: relative; display: none; background-size: cover; background-position: center; }
+        .active { display: flex; flex-direction: column; align-items: center; justify-content: center; }
 
-        /* 背景設定：強制蓋過全螢幕 */
-        .background {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: url('bg_main.jpg?v=2') no-repeat center center;
-            background-size: cover;
-            z-index: -1;
-        }
+        /* --- 🌸 第一頁：開場 --- */
+        #scene1 { background-image: url('Chakra_Flower_Project/images/bg_start.jpg'); background-color: #ffeef2; }
+        .title-text { color: #c6879e; font-size: 26px; font-weight: 700; text-shadow: 0 0 10px rgba(255,255,255,0.8); z-index: 10; margin-bottom: 20px; text-align: center;}
+        
+        .flower-spirit { width: 80px; position: absolute; animation: float 4s infinite ease-in-out; opacity: 0; z-index: 5; }
+        @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-15px); } }
+        @keyframes enter { from { opacity: 0; transform: scale(0.5); } to { opacity: 1; transform: scale(1); } }
+        /* 魔法花朵飛入 */
+        .f1 { top: 15%; left: 10%; animation: enter 1.5s forwards, float 4s infinite ease-in-out; }
+        .f2 { top: 20%; right: 10%; animation: enter 1.5s forwards 0.3s, float 4s infinite ease-in-out; }
+        .f3 { bottom: 25%; left: 15%; animation: enter 1.5s forwards 0.6s, float 4s infinite ease-in-out; }
+        .f4 { bottom: 30%; right: 15%; animation: enter 1.5s forwards 0.9s, float 4s infinite ease-in-out; }
+        .f5 { top: 8%; left: 45%; animation: enter 1.5s forwards 1.2s, float 4s infinite ease-in-out; }
 
-        /* 舞台區域：控制人像跟脈輪的相對位置 */
-        .stage {
-            position: relative;
-            width: 80vw; 
-            max-width: 400px;
-            aspect-ratio: 1 / 1.5; /* 維持人像比例 */
+        .start-btn { 
+            z-index: 20; padding: 15px 45px; background: linear-gradient(135deg, #f4aab9, #d87093); 
+            color: white; border: none; border-radius: 30px; font-size: 20px; font-weight: bold; 
+            cursor: pointer; margin-top: 180px; box-shadow: 0 4px 15px rgba(216, 112, 147, 0.4);
+            letter-spacing: 2px; transition: transform 0.2s;
         }
+        .start-btn:active { transform: scale(0.95); }
 
-        /* 人像主圖：增加對比陰影，解決手鐲白色塊問題 */
-        .main-img {
-            width: 100%;
-            height: 100%;
-            object-fit: contain;
-            /* 強力陰影濾鏡：幫助去背邊緣與背景分離 */
-            filter: drop-shadow(0 0 12px rgba(0,0,0,0.4)) brightness(1.05);
+        /* --- ⏳ 第二頁：Loading --- */
+        #scene2 { background: #fffafb; }
+        .loader { width: 50px; height: 50px; border: 4px solid #fae1e8; border-top: 4px solid #d87093; border-radius: 50%; animation: spin 1s linear infinite; }
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        /* --- ✨ 第三頁：結果畫面 --- */
+        #scene3 { background-image: url('Chakra_Flower_Project/images/bg_main.jpg'); background-color: #e2eaf5; }
+        .hint-text { position: absolute; top: 6%; font-size: 22px; color: #b188a6; font-weight: bold; letter-spacing: 1px; text-shadow: 0 0 10px rgba(255,255,255,0.8); }
+        
+        .human-body { width: 80%; max-width: 350px; position: absolute; top: 12%; }
+        .human-img { width: 100%; display: block; filter: drop-shadow(0 0 20px rgba(255,255,255,0.7)); }
+        
+        /* 脈輪熱區與數字代替圖 */
+        .chakra-dot { 
+            position: absolute; width: 40px; height: 40px; left: 50%; transform: translateX(-50%); 
+            cursor: pointer; border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            font-size: 16px; font-weight: bold; color: white; background: rgba(255, 255, 255, 0.4);
+            border: 2px solid rgba(255,255,255,0.8); box-shadow: 0 0 10px rgba(255,255,255,0.5);
+            transition: 0.3s;
         }
+        .chakra-dot.active-chakra { background: rgba(216, 112, 147, 0.8); border-color: #fff; box-shadow: 0 0 15px #d87093; transform: translateX(-50%) scale(1.15); }
 
-        /* 脈輪發光球點：統一設定 */
-        .chakra {
-            position: absolute;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 15px;
-            height: 15px;
-            border-radius: 50%;
-            box-shadow: 0 0 15px white;
-            animation: breathe 3s infinite ease-in-out;
-            z-index: 10;
+        /* 根據圖片調整這 7 個點的垂直位置 */
+        #c-crown { top: 6%; }
+        #c-brow { top: 16%; }
+        #c-throat { top: 26%; }
+        #c-heart { top: 38%; }
+        #c-solar { top: 50%; }
+        #c-sacral { top: 62%; }
+        #c-root { top: 74%; }
+
+        /* 下方的精緻資訊框 (仿造截圖) */
+        .info-box { 
+            position: absolute; bottom: 3%; width: 85%; max-width: 400px;
+            background: linear-gradient(to bottom, rgba(255,255,255,0.95), rgba(240,248,255,0.9));
+            border-radius: 25px; padding: 25px 20px; text-align: center; 
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1); border: 1px solid rgba(255,255,255,0.5);
+            backdrop-filter: blur(5px);
         }
-
-        /* 7 脈輪精準座標 (配合白色剪影比例) */
-        .c7 { top: 18%; background: #ffffff; box-shadow: 0 0 20px #fff; } /* 頂輪 */
-        .c6 { top: 28%; background: #4b0082; } /* 眉心輪 */
-        .c5 { top: 38%; background: #00bfff; } /* 喉輪 */
-        .c4 { top: 50%; background: #32cd32; } /* 心輪 */
-        .c3 { top: 62%; background: #ffff00; } /* 太陽輪 */
-        .c2 { top: 74%; background: #ff8c00; } /* 生殖輪 */
-        .c1 { top: 85%; background: #ff0000; } /* 海底輪：絕對不懸空 */
-
-        /* 呼吸動畫 */
-        @keyframes breathe {
-            0%, 100% { opacity: 0.6; transform: translateX(-50%) scale(1); }
-            50% { opacity: 1; transform: translateX(-50%) scale(1.3); }
+        .f-title { color: #4a4a4a; font-size: 24px; font-weight: 700; margin: 0 0 5px 0; letter-spacing: 2px; }
+        .f-subtitle { color: #999; font-size: 12px; margin: 0 0 15px 0; font-style: italic; }
+        .f-text { color: #555; font-size: 16px; line-height: 1.6; margin-bottom: 25px; font-weight: 500;}
+        
+        /* 底部按鈕群 (仿造截圖) */
+        .btn-group { display: flex; justify-content: center; gap: 15px; }
+        .sub-btn { 
+            padding: 12px 0; width: 45%; border-radius: 25px; font-size: 16px; font-weight: bold; cursor: pointer; 
+            transition: 0.2s; border: none;
         }
-
-        h1 {
-            position: absolute; top: 5%; width: 100%; text-align: center;
-            color: white; font-family: sans-serif; font-size: 1.2rem;
-            text-shadow: 0 0 10px rgba(0,0,0,0.8);
-        }
+        .btn-home { background: rgba(255,255,255,0.8); color: #888; box-shadow: 0 4px 10px rgba(0,0,0,0.05); }
+        .btn-again { background: linear-gradient(135deg, #fbe3eb, #f5cdd8); color: #a86c7d; box-shadow: 0 4px 10px rgba(216,112,147,0.15); }
+        .sub-btn:active { transform: scale(0.95); }
     </style>
 </head>
 <body>
-    <div class="background"></div>
-    <h1>畫質與定位最終實測</h1>
-    
-    <div class="stage">
-        <img src="human_aura.png?v=2" class="main-img">
-        
-        <div class="chakra c7"></div>
-        <div class="chakra c6"></div>
-        <div class="chakra c5"></div>
-        <div class="chakra c4"></div>
-        <div class="chakra c3"></div>
-        <div class="chakra c2"></div>
-        <div class="chakra c1"></div>
+
+    <div id="scene1" class="stage active">
+        <div class="title-text">讓花精溫柔聆聽脈輪能量</div>
+        <img src="Chakra_Flower_Project/images/flower_01.png" class="flower-spirit f1" onerror="this.style.display='none'">
+        <img src="Chakra_Flower_Project/images/flower_02.png" class="flower-spirit f2" onerror="this.style.display='none'">
+        <img src="Chakra_Flower_Project/images/flower_03.png" class="flower-spirit f3" onerror="this.style.display='none'">
+        <img src="Chakra_Flower_Project/images/flower_04.png" class="flower-spirit f4" onerror="this.style.display='none'">
+        <img src="Chakra_Flower_Project/images/flower_05.png" class="flower-spirit f5" onerror="this.style.display='none'">
+        <button class="start-btn" onclick="startMagic()">花精指引</button>
     </div>
+
+    <div id="scene2" class="stage">
+        <div class="loader"></div>
+        <p style="margin-top:20px; color:#d87093; font-weight: 500; font-size: 18px; letter-spacing: 1px;">正在為您凝聚脈輪能量...</p>
+    </div>
+
+    <div id="scene3" class="stage">
+        <div class="hint-text">點擊脈輪 聆聽花語</div>
+        
+        <div class="human-body">
+            <img src="Chakra_Flower_Project/images/human_aura.png" class="human-img" alt="脈輪人體">
+            
+            <div id="c-crown" class="chakra-dot" onclick="showChakra('crown')"></div>
+            <div id="c-brow" class="chakra-dot" onclick="showChakra('brow')"></div>
+            <div id="c-throat" class="chakra-dot" onclick="showChakra('throat')"></div>
+            <div id="c-heart" class="chakra-dot" onclick="showChakra('heart')"></div>
+            <div id="c-solar" class="chakra-dot" onclick="showChakra('solar')"></div>
+            <div id="c-sacral" class="chakra-dot" onclick="showChakra('sacral')"></div>
+            <div id="c-root" class="chakra-dot" onclick="showChakra('root')"></div>
+        </div>
+
+        <div class="info-box">
+            <h2 id="fName" class="f-title"></h2>
+            <p id="fSubtitle" class="f-subtitle"></p>
+            <p id="fText" class="f-text"></p>
+            
+            <div class="btn-group">
+                <button class="sub-btn btn-home" onclick="location.reload()">回首頁</button>
+                <button class="sub-btn btn-again" onclick="startMagic()">再次指引</button>
+            </div>
+        </div>
+    </div>
+
+<script>
+    // 學長把妳的 38 朵花精資料全部內建進來了！
+    // 數字編號 (num) 就是用來顯示在脈輪點上的「好看的數字」
+    const flowerList = [
+        { num: "01", name: "龍芽草", en: "Agrimony", text: "在平靜的笑容背後，隱藏著內心的煎熬與焦慮。" },
+        { num: "02", name: "白楊", en: "Aspen", text: "面對未知的恐懼，找回內心的安全感與勇氣。" },
+        { num: "03", name: "山毛櫸", en: "Beech", text: "練習寬容與理解，看見他人與自己的美好。" },
+        { num: "04", name: "矢車菊", en: "Centaury", text: "學會拒絕，找回自主權，不再盲目順從。" },
+        { num: "05", name: "水蕨", en: "Cerato", text: "信任直覺，不再為了尋求認可而猶豫不決。" },
+        { num: "06", name: "櫻桃李", en: "Cherry Plum", text: "放鬆緊繃的心，找回在壓力下的情緒平衡。" },
+        { num: "07", name: "栗樹芽孢", en: "Chestnut Bud", text: "從經驗中學習，避免重複同樣的錯誤模式。" },
+        { num: "08", name: "菊苣", en: "Chicory", text: "學習無私的愛，放下對他人的掌控與依賴。" },
+        { num: "09", name: "鐵線蓮", en: "Clematis", text: "腳踏實地，將夢想轉化為現實的行動力。" },
+        { num: "10", name: "野生酸蘋果", en: "Crab Apple", text: "接受自己的不完美，洗滌身心的沉重感。" },
+        { num: "11", name: "榆樹", en: "Elm", text: "減輕過重的責任感，找回處理任務的自信。" },
+        { num: "12", name: "龍膽", en: "Gentian", text: "在挫折中保持信心，重燃克服困難的鬥志。" },
+        { num: "13", name: "金雀花", en: "Gorse", text: "找回希望，看見絕境中綻放的每一道微光。" },
+        { num: "14", name: "石楠", en: "Heather", text: "學習傾聽他人，從孤獨感中找回內心的充盈。" },
+        { num: "15", name: "冬青", en: "Holly", text: "用愛化解憤怒與嫉妒，找回內心的柔軟。" },
+        { num: "16", name: "忍冬", en: "Honeysuckle", text: "告別過去，擁抱現在，活在當下的每一刻。" },
+        { num: "17", name: "鵝耳櫪", en: "Hornbeam", text: "克服心理倦怠，找回面對生活的活力與熱情。" },
+        { num: "18", name: "鳳仙花", en: "Impatiens", text: "放慢腳步，培養耐心與對他人的體諒。" },
+        { num: "19", name: "落葉松", en: "Larch", text: "建立自信，相信自己具備成功的潛力。" },
+        { num: "20", name: "构酸醬", en: "Mimulus", text: "面對具體的恐懼，找回平靜而安定的勇氣。" },
+        { num: "21", name: "芥末", en: "Mustard", text: "驅散莫名的憂鬱，找回心靈深處的喜悅。" },
+        { num: "22", name: "橡樹", en: "Oak", text: "學會休息，讓疲憊的身心得到適當的修復。" },
+        { num: "23", name: "橄欖", en: "Olive", text: "深層修復身心耗竭，找回遺失的能量來源。" },
+        { num: "24", name: "松樹", en: "Pine", text: "放下罪惡感，學會原諒自己並接受關愛。" },
+        { num: "25", name: "紅栗子", en: "Red Chestnut", text: "放下對親友的過度擔心，用信任取代憂慮。" },
+        { num: "26", name: "岩薔薇", en: "Rock Rose", text: "在極度恐慌中找回鎮定，平復強烈的衝擊。" },
+        { num: "27", name: "巖水", en: "Rock Water", text: "放下嚴苛的自我要求，享受生命中的彈性。" },
+        { num: "28", name: "線球草", en: "Scleranthus", text: "在選擇中不再搖擺，找回決斷的定力。" },
+        { num: "29", name: "聖星百合", en: "Star of Bethlehem", text: "安撫過往的驚嚇與創傷，修復內心的裂痕。" },
+        { num: "30", name: "甜栗子", en: "Sweet Chestnut", text: "在極度絕望中看見轉機，迎來重生的力量。" },
+        { num: "31", name: "馬鞭草", en: "Vervain", text: "適度調整熱情，學習平和地傳遞理念。" },
+        { num: "32", name: "葡萄藤", en: "Vine", text: "發揮領導力，同時尊重他人的意志與空間。" },
+        { num: "33", name: "胡桃", en: "Walnut", text: "在變動期保護自我能量，勇敢邁向新人生。" },
+        { num: "34", name: "水紫羅蘭", en: "Water Violet", text: "放下疏離感，與他人共享智慧與溫暖。" },
+        { num: "35", name: "白栗子", en: "White Chestnut", text: "停下反覆煩惱的思緒，找回平靜的心境。" },
+        { num: "36", name: "野生燕麥", en: "Wild Oat", text: "釐清人生方向，找到真正能發揮天賦的道路。" },
+        { num: "37", name: "野玫瑰", en: "Wild Rose", text: "告別消極被動，重燃對生命的熱情與喜悅。" },
+        { num: "38", name: "柳樹", en: "Willow", text: "放下怨懟與不平，掌握自己命運的舵手。" }
+    ];
+
+    let currentSessionFlowers = {};
+    const parts = ['crown', 'brow', 'throat', 'heart', 'solar', 'sacral', 'root'];
+
+    function startMagic() {
+        document.getElementById('scene1').classList.remove('active');
+        document.getElementById('scene3').classList.remove('active');
+        document.getElementById('scene2').classList.add('active');
+        
+        setTimeout(() => {
+            document.getElementById('scene2').classList.remove('active');
+            document.getElementById('scene3').classList.add('active');
+            
+            // 隨機抽選 7 朵不重複的花精
+            let shuffled = [...flowerList].sort(() => 0.5 - Math.random());
+            currentSessionFlowers = {
+                'crown': shuffled[0], 'brow': shuffled[1], 'throat': shuffled[2],
+                'heart': shuffled[3], 'solar': shuffled[4], 'sacral': shuffled[5], 'root': shuffled[6]
+            };
+            
+            // 將抽到的花精數字(01-38)填入對應的脈輪圓圈內
+            parts.forEach(part => {
+                document.getElementById(`c-${part}`).innerText = currentSessionFlowers[part].num;
+            });
+
+            // 預設顯示頂輪
+            showChakra('crown'); 
+        }, 2200);
+    }
+
+    function showChakra(part) {
+        // 1. 更新下方資訊框內容
+        const flower = currentSessionFlowers[part];
+        document.getElementById('fName').innerText = flower.name;
+        document.getElementById('fSubtitle').innerText = `${flower.en}, ${flower.name}`;
+        document.getElementById('fText').innerText = flower.text;
+
+        // 2. 清除所有脈輪點的發光效果
+        parts.forEach(p => document.getElementById(`c-${p}`).classList.remove('active-chakra'));
+        
+        // 3. 讓目前點擊的脈輪點發光
+        document.getElementById(`c-${part}`).classList.add('active-chakra');
+    }
+</script>
 </body>
 </html>
