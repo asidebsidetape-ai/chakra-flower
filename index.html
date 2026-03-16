@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>當花精與脈輪相遇</title>
     
-    <link rel="icon" type="image/png" href="favicon.png?v=4" sizes="512x512">
+    <link rel="icon" type="image/png" href="favicon.png?v=5" sizes="512x512">
     
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700&display=swap" rel="stylesheet">
     <style>
@@ -13,59 +13,73 @@
         .stage { width: 100vw; height: 100vh; position: relative; display: none; background-size: cover; background-position: center; }
         .active { display: block; }
 
-        /* --- 🌸 第一頁：開場 (保留你完美的配置) --- */
-        #scene1 { background-image: url('Chakra_Flower_Project/images/bg_start.jpg'); background-color: #ffeef2; }
+        /* =========================================
+           🌸 第一頁：開場 (首頁整體排版優化)
+           ========================================= */
+        /* 解決手機版被裁切的問題：背景圖改為頂部對齊，確保主視覺不見 */
+        #scene1 { background-image: url('Chakra_Flower_Project/images/bg_start.jpg'); background-color: #ffeef2; background-position: top center; }
         
-        .title-text { position: absolute; bottom: 25%; width: 100%; text-align: center; color: #c6879e; font-size: 26px; font-weight: 700; text-shadow: 0 0 10px rgba(255,255,255,0.8); z-index: 10; letter-spacing: 2px; pointer-events: none; }
+        /* 1. 置頂：標題移到最上方 */
+        .title-text { position: absolute; top: 12%; width: 100%; text-align: center; color: #c6879e; font-size: 28px; font-weight: 700; text-shadow: 0 0 10px rgba(255,255,255,0.8); z-index: 10; letter-spacing: 3px; pointer-events: none; }
         
+        /* 3. 置底：按鈕移到下方，確保不被花朵擋住 */
         .start-btn { 
             position: absolute; bottom: 12%; left: 50%; transform: translateX(-50%);
-            z-index: 20; padding: 15px 50px; background: linear-gradient(135deg, #f4aab9, #d87093); 
-            color: white; border: none; border-radius: 30px; font-size: 22px; font-weight: bold; 
+            z-index: 20; padding: 15px 60px; background: linear-gradient(135deg, #f4aab9, #d87093); 
+            color: white; border: none; border-radius: 30px; font-size: 24px; font-weight: bold; 
             cursor: pointer; box-shadow: 0 4px 15px rgba(216, 112, 147, 0.4);
             letter-spacing: 2px; transition: 0.2s; white-space: nowrap; 
         }
         .start-btn:active { transform: translateX(-50%) scale(0.95); }
 
-        .flower-spirit { width: 85px; position: absolute; animation: float 4s infinite ease-in-out; opacity: 0; z-index: 5; pointer-events: none; }
-        @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-15px); } }
-        @keyframes enter { from { opacity: 0; transform: scale(0.5); } to { opacity: 1; transform: scale(1); } }
+        /* 2. 置中：五朵花集中在畫面中央，並加入「一朵一朵飄進來」的動畫 */
+        .flower-spirit { width: 90px; position: absolute; opacity: 0; z-index: 5; pointer-events: none; }
         
-        .f1 { top: 12%; left: 15%; animation: enter 1.5s forwards, float 4s infinite ease-in-out; }
-        .f2 { top: 8%; right: 18%; animation: enter 1.5s forwards 0.3s, float 4s infinite ease-in-out; }
-        .f3 { top: 32%; left: 10%; animation: enter 1.5s forwards 0.6s, float 4s infinite ease-in-out; }
-        .f4 { top: 35%; right: 12%; animation: enter 1.5s forwards 0.9s, float 4s infinite ease-in-out; }
-        .f5 { top: 22%; left: 50%; transform: translateX(-50%); animation: enter 1.5s forwards 1.2s, float 4s infinite ease-in-out; }
+        /* 動畫：從上方微幅落下並淡入，隨後持續上下浮動 */
+        @keyframes float-in { 
+            0% { opacity: 0; transform: translateY(-30px) scale(0.8); } 
+            100% { opacity: 1; transform: translateY(0) scale(1); } 
+        }
+        @keyframes float-continuous { 
+            0%, 100% { transform: translateY(0); } 
+            50% { transform: translateY(-15px); } 
+        }
+
+        /* 將花朵集中在中央區塊 (大約 top 35% ~ 60% 之間) */
+        /* 加上明確的 animation-delay 讓它們依序飄入 */
+        .f1 { top: 35%; left: 25%; animation: float-in 1.2s forwards 0.2s, float-continuous 4s infinite ease-in-out 1.4s; }
+        .f2 { top: 40%; right: 25%; animation: float-in 1.2s forwards 0.6s, float-continuous 4s infinite ease-in-out 1.8s; }
+        .f3 { top: 55%; left: 20%; animation: float-in 1.2s forwards 1.0s, float-continuous 4s infinite ease-in-out 2.2s; }
+        .f4 { top: 58%; right: 20%; animation: float-in 1.2s forwards 1.4s, float-continuous 4s infinite ease-in-out 2.6s; }
+        .f5 { top: 48%; left: 50%; transform: translateX(-50%); animation: float-in 1.2s forwards 1.8s, float-continuous 4s infinite ease-in-out 3.0s; }
 
         /* --- ⏳ 第二頁：Loading --- */
         #scene2 { background: radial-gradient(circle, #ffffff 15%, #ffe4e9 100%); display: flex; flex-direction: column; align-items: center; justify-content: center; }
         .loader { width: 60px; height: 60px; border: 5px solid #fae1e8; border-top: 5px solid #d87093; border-radius: 50%; animation: spin 1s linear infinite; }
         @keyframes spin { to { transform: rotate(360deg); } }
 
-        /* --- ✨ 第三頁：結果畫面 --- */
-        #scene3 { background-image: url('Chakra_Flower_Project/images/bg_main.jpg'); background-color: #e2eaf5; }
+        /* =========================================
+           ✨ 第三頁：結果畫面
+           ========================================= */
+        #scene3 { background-image: url('Chakra_Flower_Project/images/bg_main.jpg'); background-color: #e2eaf5; background-position: top center; }
         
-        /* 加入 pointer-events: none，這行字再也擋不住你的頂輪 */
-        .hint-text { position: absolute; top: 7%; width: 100%; text-align: center; font-size: 22px; color: #b188a6; font-weight: bold; letter-spacing: 2px; text-shadow: 0 0 10px rgba(255,255,255,0.8); pointer-events: none; z-index: 2; }
+        .hint-text { position: absolute; top: 5%; width: 100%; text-align: center; font-size: 22px; color: #b188a6; font-weight: bold; letter-spacing: 2px; text-shadow: 0 0 10px rgba(255,255,255,0.8); pointer-events: none; z-index: 2; }
         
-        /* 🚨 保留你 100% 成功的人體比例與位置 🚨 */
         .human-body { 
-            position: absolute; top: 44%; left: 50%; transform: translate(-50%, -50%);
-            width: 75%; max-width: 320px; z-index: 1;
+            position: absolute; top: 42%; left: 50%; transform: translate(-50%, -50%);
+            width: 86%; max-width: 500px; z-index: 1;
         }
         .human-img { width: 100%; display: block; filter: drop-shadow(0 0 15px rgba(255,255,255,0.5)); pointer-events: none; }
         
-        /* 🚨 保留你 100% 成功的按鈕模式 🚨 */
         .chakra-dot { 
-            position: absolute; width: 45px; height: 45px; left: 50%; transform: translateX(-50%); 
+            position: absolute; width: 28px; height: 28px; left: 50%; transform: translateX(-50%); 
             cursor: pointer; border-radius: 50%; background: transparent; transition: 0.3s; z-index: 15;
         }
         .chakra-dot.active-chakra { 
-            box-shadow: 0 0 25px 10px rgba(230, 143, 169, 0.6); 
-            background: rgba(255, 255, 255, 0.3);
+            box-shadow: 0 0 15px 6px rgba(230, 143, 169, 0.7); 
+            background: rgba(255, 255, 255, 0.4);
         }
 
-        /* 🚨 保留你 100% 成功的精準座標 🚨 */
         #c-crown { top: 3%; }
         #c-brow { top: 15%; }
         #c-throat { top: 28%; }
@@ -74,45 +88,73 @@
         #c-sacral { top: 67%; }
         #c-root { top: 80%; }
 
-        /* --- 🌸 美化版：底部半透明磨砂玻璃資訊框 --- */
         .info-box { 
             position: absolute; bottom: 3%; left: 50%; transform: translateX(-50%);
-            width: 80%; max-width: 380px; z-index: 20;
-            background: rgba(255, 255, 255, 0.6); border-radius: 20px; padding: 15px 15px; 
+            width: 85%; max-width: 320px; z-index: 20;
+            background: rgba(255, 255, 255, 0.7); border-radius: 20px; padding: 15px; 
             box-shadow: 0 4px 15px rgba(216, 112, 147, 0.1); border: none; 
             backdrop-filter: blur(8px); display: flex; flex-direction: column;
         }
         
-        .info-content { display: flex; align-items: center; margin-bottom: 15px; gap: 15px; }
+        .info-content { display: flex; align-items: center; margin-bottom: 12px; gap: 12px; }
         .f-image-placeholder {
-            width: 70px; height: 70px; border-radius: 50%; background: #fdf5f7; 
+            width: 60px; height: 60px; border-radius: 50%; background: #fdf5f7; 
             border: 2px dashed #e7aebf; display: flex; align-items: center; justify-content: center;
-            font-size: 28px; color: #d87093; font-weight: 700; flex-shrink: 0; font-style: italic;
+            font-size: 24px; color: #d87093; font-weight: 700; flex-shrink: 0; font-style: italic;
         }
         .f-text-group { flex-grow: 1; text-align: left; }
         
-        /* 中英文並排設計 */
-        .f-title-group { color: #4a4a4a; font-size: 24px; font-weight: 700; margin: 0 0 5px 0; letter-spacing: 1px; }
-        .f-title-en { color: #aaa; font-size: 14px; margin-left: 10px; font-style: italic; font-weight: 400; }
-        .f-desc { color: #555; font-size: 16px; line-height: 1.5; margin: 0; font-weight: 500;}
+        .f-title-group { color: #4a4a4a; font-size: 24px; font-weight: 700; margin: 0 0 4px 0; letter-spacing: 1px; }
+        .f-title-en { color: #aaa; font-size: 14px; margin-left: 8px; font-style: italic; font-weight: 400; }
+        .f-desc { color: #555; font-size: 16px; line-height: 1.4; margin: 0; font-weight: 500;}
 
-        .btn-group { display: flex; justify-content: center; gap: 15px; }
-        .sub-btn { padding: 12px 0; width: 45%; border-radius: 25px; font-size: 16px; font-weight: bold; cursor: pointer; transition: 0.2s; border: none; }
+        .btn-group { display: flex; justify-content: center; gap: 10px; }
+        .sub-btn { padding: 10px 0; width: 48%; border-radius: 20px; font-size: 15px; font-weight: bold; cursor: pointer; transition: 0.2s; border: none; }
         .btn-home { background: #f5f5f5; color: #888; box-shadow: 0 4px 10px rgba(0,0,0,0.05); }
         .btn-again { background: linear-gradient(135deg, #fbe3eb, #f5cdd8); color: #a86c7d; box-shadow: 0 4px 10px rgba(216,112,147,0.15); }
         .sub-btn:active { transform: scale(0.95); }
+
+        /* =========================================
+           📱 RWD 手機版自動適應 (確保不裁切)
+           ========================================= */
+        @media (max-width: 768px) {
+            .title-text { font-size: 22px; top: 8%; } 
+            
+            /* 💡 手機版按鈕大舉往上提，避開安全區 */
+            .start-btn { font-size: 20px; padding: 12px 40px; bottom: 18%; } 
+            
+            .flower-spirit { width: 70px; } 
+            .f1 { top: 25%; left: 15%; }
+            .f2 { top: 30%; right: 15%; }
+            .f3 { top: 50%; left: 10%; }
+            .f4 { top: 55%; right: 10%; }
+            .f5 { top: 40%; left: 50%; transform: translateX(-50%); }
+
+            .hint-text { font-size: 18px; top: 5%; }
+            
+            /* 💡 手機版人體圖縮小並往上提，空出底部空間 */
+            .human-body { top: 38%; width: 75%; } 
+            
+            /* 💡 手機版資訊框往上提，保證按鈕完整出現 */
+            .info-box { width: 92%; bottom: 6%; padding: 12px; } 
+            
+            .f-title-group { font-size: 20px; }
+            .f-desc { font-size: 15px; }
+            .sub-btn { font-size: 14px; padding: 8px 0; }
+        }
     </style>
 </head>
 <body>
 
     <div id="scene1" class="stage active">
+        <div class="title-text">讓花精溫柔聆聽脈輪能量</div>
+        
         <img src="Chakra_Flower_Project/images/flower_01.png" class="flower-spirit f1" onerror="this.style.display='none'">
         <img src="Chakra_Flower_Project/images/flower_02.png" class="flower-spirit f2" onerror="this.style.display='none'">
         <img src="Chakra_Flower_Project/images/flower_03.png" class="flower-spirit f3" onerror="this.style.display='none'">
         <img src="Chakra_Flower_Project/images/flower_04.png" class="flower-spirit f4" onerror="this.style.display='none'">
         <img src="Chakra_Flower_Project/images/flower_05.png" class="flower-spirit f5" onerror="this.style.display='none'">
         
-        <div class="title-text">讓花精溫柔聆聽脈輪能量</div>
         <button class="start-btn" onclick="startMagic()">花精指引</button>
     </div>
 
@@ -218,7 +260,6 @@
         const flower = currentSessionFlowers[part];
         
         document.getElementById('fNumPlaceholder').innerText = flower.num;
-        // 中英文並排寫入
         document.getElementById('fTitleGroup').innerHTML = `${flower.name}<span class="f-title-en">${flower.en}</span>`; 
         document.getElementById('fText').innerText = flower.text;
 
