@@ -6,23 +6,20 @@
     <title>當花精與脈輪相遇</title>
     
     <link rel="icon" type="image/png" href="favicon.png?v=5" sizes="512x512">
-    
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700&display=swap" rel="stylesheet">
     <style>
+        /* 💡 修正手機版 100vh 陷阱，改用絕對安全的 100% 滿版定位 */
         body, html { margin: 0; padding: 0; width: 100%; height: 100%; overflow: hidden; font-family: 'Noto Sans TC', sans-serif; background-color: #000; }
-        .stage { width: 100vw; height: 100vh; position: relative; display: none; background-size: cover; background-position: center; }
+        .stage { width: 100%; height: 100%; position: absolute; top: 0; left: 0; display: none; background-size: cover; background-position: center; }
         .active { display: block; }
 
         /* =========================================
-           🌸 第一頁：開場 (首頁整體排版優化)
+           🌸 第一頁：開場
            ========================================= */
-        /* 解決手機版被裁切的問題：背景圖改為頂部對齊，確保主視覺不見 */
         #scene1 { background-image: url('Chakra_Flower_Project/images/bg_start.jpg'); background-color: #ffeef2; background-position: top center; }
         
-        /* 1. 置頂：標題移到最上方 */
         .title-text { position: absolute; top: 12%; width: 100%; text-align: center; color: #c6879e; font-size: 28px; font-weight: 700; text-shadow: 0 0 10px rgba(255,255,255,0.8); z-index: 10; letter-spacing: 3px; pointer-events: none; }
         
-        /* 3. 置底：按鈕移到下方，確保不被花朵擋住 */
         .start-btn { 
             position: absolute; bottom: 12%; left: 50%; transform: translateX(-50%);
             z-index: 20; padding: 15px 60px; background: linear-gradient(135deg, #f4aab9, #d87093); 
@@ -32,10 +29,8 @@
         }
         .start-btn:active { transform: translateX(-50%) scale(0.95); }
 
-        /* 2. 置中：五朵花集中在畫面中央，並加入「一朵一朵飄進來」的動畫 */
         .flower-spirit { width: 90px; position: absolute; opacity: 0; z-index: 5; pointer-events: none; }
         
-        /* 動畫：從上方微幅落下並淡入，隨後持續上下浮動 */
         @keyframes float-in { 
             0% { opacity: 0; transform: translateY(-30px) scale(0.8); } 
             100% { opacity: 1; transform: translateY(0) scale(1); } 
@@ -45,14 +40,11 @@
             50% { transform: translateY(-15px); } 
         }
 
-        /* 將花朵集中在中央區塊 (大約 top 35% ~ 60% 之間) */
-        /* 加上明確的 animation-delay 讓它們依序飄入 */
         .f1 { top: 35%; left: 25%; animation: float-in 1.2s forwards 0.2s, float-continuous 4s infinite ease-in-out 1.4s; }
         .f2 { top: 40%; right: 25%; animation: float-in 1.2s forwards 0.6s, float-continuous 4s infinite ease-in-out 1.8s; }
         .f3 { top: 55%; left: 20%; animation: float-in 1.2s forwards 1.0s, float-continuous 4s infinite ease-in-out 2.2s; }
         .f4 { top: 58%; right: 20%; animation: float-in 1.2s forwards 1.4s, float-continuous 4s infinite ease-in-out 2.6s; }
         .f5 { top: 48%; left: 50%; transform: translateX(-50%); animation: float-in 1.2s forwards 1.8s, float-continuous 4s infinite ease-in-out 3.0s; }
-
 
         /* =========================================
            ⏳ 第二頁：Loading
@@ -61,37 +53,28 @@
         .loader { width: 60px; height: 60px; border: 5px solid #fae1e8; border-top: 5px solid #d87093; border-radius: 50%; animation: spin 1s linear infinite; }
         @keyframes spin { to { transform: rotate(360deg); } }
 
-
         /* =========================================
-           ✨ 第三頁：結果畫面 (人體圖與抽牌結果)
+           ✨ 第三頁：結果畫面
            ========================================= */
-        /* 背景定位改為 top center 防止手機版裁切重要部位 */
         #scene3 { background-image: url('Chakra_Flower_Project/images/bg_main.jpg'); background-color: #e2eaf5; background-position: top center; }
         
         .hint-text { position: absolute; top: 5%; width: 100%; text-align: center; font-size: 22px; color: #b188a6; font-weight: bold; letter-spacing: 2px; text-shadow: 0 0 10px rgba(255,255,255,0.8); pointer-events: none; z-index: 2; }
         
-        /* 💡 放大電腦版人體圖，讓它成為視覺焦點 */
         .human-body { 
             position: absolute; top: 42%; left: 50%; transform: translate(-50%, -50%);
-            width: 86%; max-width: 500px; /* 從 320px 放大到 500px */
-            z-index: 1;
+            width: 86%; max-width: 500px; z-index: 1;
         }
         .human-img { width: 100%; display: block; filter: drop-shadow(0 0 15px rgba(255,255,255,0.5)); pointer-events: none; }
         
-        /* 💡 縮小光圈，讓點擊更精準、視覺更精緻 */
         .chakra-dot { 
-            position: absolute; 
-            width: 28px; height: 28px; /* 從 45/60px 縮小到 28px */
-            left: 50%; transform: translateX(-50%); 
+            position: absolute; width: 28px; height: 28px; left: 50%; transform: translateX(-50%); 
             cursor: pointer; border-radius: 50%; background: transparent; transition: 0.3s; z-index: 15;
         }
-        /* 縮小光暈擴散範圍，避免蓋住水彩圖案 */
         .chakra-dot.active-chakra { 
             box-shadow: 0 0 15px 6px rgba(230, 143, 169, 0.7); 
             background: rgba(255, 255, 255, 0.4);
         }
 
-        /* 完美對齊的座標 (維持你成功的比例) */
         #c-crown { top: 3%; }
         #c-brow { top: 15%; }
         #c-throat { top: 28%; }
@@ -100,27 +83,22 @@
         #c-sacral { top: 67%; }
         #c-root { top: 80%; }
 
-        /* 💡 縮小資訊框，減少無謂的留白 */
         .info-box { 
             position: absolute; bottom: 3%; left: 50%; transform: translateX(-50%);
-            width: 85%; max-width: 320px; /* 電腦版最大寬度從 380/400 縮小到 320px */
-            z-index: 20;
-            background: rgba(255, 255, 255, 0.7); border-radius: 20px; 
-            padding: 15px; /* 縮減內邊距減少留白 */
+            width: 85%; max-width: 320px; z-index: 20;
+            background: rgba(255, 255, 255, 0.7); border-radius: 20px; padding: 15px; 
             box-shadow: 0 4px 15px rgba(216, 112, 147, 0.1); border: none; 
             backdrop-filter: blur(8px); display: flex; flex-direction: column;
         }
         
-        .info-content { display: flex; align-items: center; margin-bottom: 12px; gap: 12px; } /* 縮減元素間距 */
+        .info-content { display: flex; align-items: center; margin-bottom: 12px; gap: 12px; }
         .f-image-placeholder {
-            width: 60px; height: 60px; /* 稍微縮小佔位符 */
-            border-radius: 50%; background: #fdf5f7; 
+            width: 60px; height: 60px; border-radius: 50%; background: #fdf5f7; 
             border: 2px dashed #e7aebf; display: flex; align-items: center; justify-content: center;
             font-size: 24px; color: #d87093; font-weight: 700; flex-shrink: 0; font-style: italic;
         }
         .f-text-group { flex-grow: 1; text-align: left; }
         
-        /* 字體大小保留，讓排版緊湊 */
         .f-title-group { color: #4a4a4a; font-size: 24px; font-weight: 700; margin: 0 0 4px 0; letter-spacing: 1px; }
         .f-title-en { color: #aaa; font-size: 14px; margin-left: 8px; font-style: italic; font-weight: 400; }
         .f-desc { color: #555; font-size: 16px; line-height: 1.4; margin: 0; font-weight: 500;}
@@ -131,27 +109,30 @@
         .btn-again { background: linear-gradient(135deg, #fbe3eb, #f5cdd8); color: #a86c7d; box-shadow: 0 4px 10px rgba(216,112,147,0.15); }
         .sub-btn:active { transform: scale(0.95); }
 
-
         /* =========================================
-           📱 RWD 手機版自動適應 (螢幕小於 768px 時觸發)
+           📱 RWD 手機版自動適應 (確保不裁切)
            ========================================= */
         @media (max-width: 768px) {
-            /* 第一頁手機版微調 */
-            .title-text { font-size: 22px; top: 10%; } /* 標題稍微縮小 */
-            .start-btn { font-size: 20px; padding: 12px 40px; bottom: 10%; } /* 按鈕稍微縮小 */
-            .flower-spirit { width: 70px; } /* 花朵縮小，避免手機螢幕太擁擠 */
+            .title-text { font-size: 22px; top: 8%; } 
             
-            /* 花朵在手機上的集中位置微調 */
-            .f1 { top: 30%; left: 15%; }
-            .f2 { top: 35%; right: 15%; }
-            .f3 { top: 55%; left: 10%; }
-            .f4 { top: 60%; right: 10%; }
-            .f5 { top: 45%; left: 50%; transform: translateX(-50%); }
+            /* 💡 手機版按鈕大舉往上提，避開安全區 */
+            .start-btn { font-size: 20px; padding: 12px 40px; bottom: 18%; } 
+            
+            .flower-spirit { width: 70px; } 
+            .f1 { top: 25%; left: 15%; }
+            .f2 { top: 30%; right: 15%; }
+            .f3 { top: 50%; left: 10%; }
+            .f4 { top: 55%; right: 10%; }
+            .f5 { top: 40%; left: 50%; transform: translateX(-50%); }
 
-            /* 第三頁手機版微調 */
-            .hint-text { font-size: 18px; top: 4%; }
-            .human-body { top: 40%; width: 90%; } /* 人體圖在手機上稍微往上移一點，留空間給文字框 */
-            .info-box { width: 92%; max-width: none; bottom: 2%; padding: 12px; } /* 手機版文字框撐寬，增加閱讀性 */
+            .hint-text { font-size: 18px; top: 5%; }
+            
+            /* 💡 手機版人體圖縮小並往上提，空出底部空間 */
+            .human-body { top: 38%; width: 75%; } 
+            
+            /* 💡 手機版資訊框往上提，保證按鈕完整出現 */
+            .info-box { width: 92%; bottom: 6%; padding: 12px; } 
+            
             .f-title-group { font-size: 20px; }
             .f-desc { font-size: 15px; }
             .sub-btn { font-size: 14px; padding: 8px 0; }
