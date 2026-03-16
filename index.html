@@ -2,42 +2,107 @@
 <html lang="zh-TW">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <title>當花精與脈輪相遇</title>
-    
+
     <link rel="icon" type="image/png" href="favicon.png?v=7" sizes="512x512">
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700&display=swap" rel="stylesheet">
+
     <style>
-        /* 基礎滿版設定 */
-        body, html { margin: 0; padding: 0; width: 100%; height: 100%; overflow: hidden; font-family: 'Noto Sans TC', sans-serif; background-color: #000; }
-        .stage { width: 100%; height: 100%; position: absolute; top: 0; left: 0; display: none; background-size: cover; background-position: center; }
-        .active { display: block; }
+        * { box-sizing: border-box; }
+
+        html, body {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            font-family: 'Noto Sans TC', sans-serif;
+            background-color: #000;
+            overflow: hidden;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .stage {
+            position: fixed;
+            inset: 0;
+            display: none;
+            width: 100%;
+            height: 100dvh;
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+
+        .active {
+            display: block;
+        }
 
         /* =========================================
-           🌸 第一頁：開場 
+           🌸 第一頁：開場
            ========================================= */
-        #scene1 { background-image: url('Chakra_Flower_Project/images/bg_start.jpg'); background-color: #ffeef2; background-position: top center; }
-        
-        .title-text { position: absolute; top: 12%; width: 100%; text-align: center; color: #c6879e; font-size: 28px; font-weight: 700; text-shadow: 0 0 10px rgba(255,255,255,0.8); z-index: 10; letter-spacing: 3px; pointer-events: none; }
-        
-        .start-btn { 
-            position: absolute; bottom: 12%; left: 50%; transform: translateX(-50%);
-            z-index: 20; padding: 15px 60px; background: linear-gradient(135deg, #f4aab9, #d87093); 
-            color: white; border: none; border-radius: 30px; font-size: 24px; font-weight: bold; 
-            cursor: pointer; box-shadow: 0 4px 15px rgba(216, 112, 147, 0.4);
-            letter-spacing: 2px; transition: 0.2s; white-space: nowrap; 
+        #scene1 {
+            background-image: url('Chakra_Flower_Project/images/bg_start.jpg');
+            background-color: #ffeef2;
+            background-position: top center;
         }
-        .start-btn:active { transform: translateX(-50%) scale(0.95); }
 
-        .flower-spirit { width: 90px; position: absolute; opacity: 0; z-index: 5; pointer-events: none; }
-        
-        @keyframes float-in { 
-            0% { opacity: 0; transform: translateY(-30px) scale(0.8); } 
-            100% { opacity: 1; transform: translateY(0) scale(1); } 
+        .title-text {
+            position: absolute;
+            top: 12%;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100%;
+            padding: 0 20px;
+            text-align: center;
+            color: #c6879e;
+            font-size: clamp(22px, 4.8vw, 28px);
+            font-weight: 700;
+            text-shadow: 0 0 10px rgba(255,255,255,0.8);
+            z-index: 10;
+            letter-spacing: 3px;
+            pointer-events: none;
         }
-        @keyframes float-continuous { 
-            0%, 100% { transform: translateY(0); } 
-            50% { transform: translateY(-15px); } 
+
+        .start-btn {
+            position: absolute;
+            bottom: max(12%, calc(env(safe-area-inset-bottom, 0px) + 24px));
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 20;
+            padding: 15px 60px;
+            background: linear-gradient(135deg, #f4aab9, #d87093);
+            color: white;
+            border: none;
+            border-radius: 30px;
+            font-size: clamp(20px, 4.5vw, 24px);
+            font-weight: 700;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(216, 112, 147, 0.4);
+            letter-spacing: 2px;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            white-space: nowrap;
+        }
+
+        .start-btn:active {
+            transform: translateX(-50%) scale(0.96);
+        }
+
+        .flower-spirit {
+            width: 90px;
+            position: absolute;
+            opacity: 0;
+            z-index: 5;
+            pointer-events: none;
+        }
+
+        @keyframes float-in {
+            0% { opacity: 0; transform: translateY(-30px) scale(0.8); }
+            100% { opacity: 1; transform: translateY(0) scale(1); }
+        }
+
+        @keyframes float-continuous {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-15px); }
         }
 
         .f1 { top: 35%; left: 25%; animation: float-in 1.2s forwards 0.2s, float-continuous 4s infinite ease-in-out 1.4s; }
@@ -47,127 +112,266 @@
         .f5 { top: 48%; left: 50%; transform: translateX(-50%); animation: float-in 1.2s forwards 1.8s, float-continuous 4s infinite ease-in-out 3.0s; }
 
         /* =========================================
-           ⏳ 第二頁：Loading 
+           ⏳ 第二頁：Loading
            ========================================= */
-        #scene2 { 
-            background: radial-gradient(circle, #ffffff 15%, #ffe4e9 100%); 
-            flex-direction: column; align-items: center; justify-content: center; 
+        #scene2 {
+            background: radial-gradient(circle, #ffffff 15%, #ffe4e9 100%);
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
         }
-        .loader { width: 60px; height: 60px; border: 5px solid #fae1e8; border-top: 5px solid #d87093; border-radius: 50%; animation: spin 1s linear infinite; }
-        @keyframes spin { to { transform: rotate(360deg); } }
+
+        #scene2.active {
+            display: flex;
+        }
+
+        .loader {
+            width: 60px;
+            height: 60px;
+            border: 5px solid #fae1e8;
+            border-top: 5px solid #d87093;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
 
         /* =========================================
-           ✨ 第三頁：結果畫面 (電腦版完美狀態)
+           ✨ 第三頁：結果畫面
+           核心修正：正常流式排版，不再鎖死 top/bottom
            ========================================= */
-        #scene3 { background-image: url('Chakra_Flower_Project/images/bg_main.jpg'); background-color: #e2eaf5; background-position: top center; }
-        
-        .hint-text { position: absolute; top: 5%; width: 100%; text-align: center; font-size: 22px; color: #b188a6; font-weight: bold; letter-spacing: 2px; text-shadow: 0 0 10px rgba(255,255,255,0.8); pointer-events: none; z-index: 2; }
-        
-        .human-body { 
-            position: absolute; top: 42%; left: 50%; transform: translate(-50%, -50%);
-            width: 86%; max-width: 500px; z-index: 1;
-        }
-        .human-img { width: 100%; display: block; filter: drop-shadow(0 0 15px rgba(255,255,255,0.5)); pointer-events: none; }
-        
-        .chakra-dot { 
-            position: absolute; width: 28px; height: 28px; left: 50%; transform: translateX(-50%); 
-            cursor: pointer; border-radius: 50%; background: transparent; transition: 0.3s; z-index: 15;
-        }
-        .chakra-dot.active-chakra { 
-            box-shadow: 0 0 15px 6px rgba(230, 143, 169, 0.7); 
-            background: rgba(255, 255, 255, 0.4);
+        #scene3 {
+            background-image: url('Chakra_Flower_Project/images/bg_main.jpg');
+            background-color: #e2eaf5;
+            background-position: top center;
+            overflow-y: auto;
+            overflow-x: hidden;
+            padding:
+                calc(env(safe-area-inset-top, 0px) + 14px)
+                16px
+                calc(env(safe-area-inset-bottom, 0px) + 20px);
         }
 
-        #c-crown { top: 3%; }
-        #c-brow { top: 15%; }
+        .scene3-inner {
+            width: 100%;
+            min-height: calc(100dvh - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px) - 34px);
+            max-width: 480px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+        }
+
+        .hint-text {
+            width: 100%;
+            margin: 0 0 14px;
+            text-align: center;
+            font-size: clamp(18px, 4.8vw, 22px);
+            color: #b188a6;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-shadow: 0 0 10px rgba(255,255,255,0.8);
+            pointer-events: none;
+            z-index: 2;
+        }
+
+        .human-body {
+            position: relative;
+            width: min(94vw, 430px);
+            margin: 0 auto 14px;
+            z-index: 1;
+        }
+
+        .human-img {
+            width: 100%;
+            display: block;
+            filter: drop-shadow(0 0 15px rgba(255,255,255,0.5));
+            pointer-events: none;
+        }
+
+        .chakra-dot {
+            position: absolute;
+            width: clamp(26px, 5.2vw, 34px);
+            height: clamp(26px, 5.2vw, 34px);
+            left: 50%;
+            transform: translateX(-50%);
+            cursor: pointer;
+            border-radius: 50%;
+            background: transparent;
+            transition: 0.25s ease;
+            z-index: 15;
+        }
+
+        .chakra-dot.active-chakra {
+            box-shadow: 0 0 15px 6px rgba(230, 143, 169, 0.72);
+            background: rgba(255, 255, 255, 0.35);
+        }
+
+        #c-crown  { top: 3%; }
+        #c-brow   { top: 15%; }
         #c-throat { top: 28%; }
-        #c-heart { top: 41%; }
-        #c-solar { top: 54%; }
+        #c-heart  { top: 41%; }
+        #c-solar  { top: 54%; }
         #c-sacral { top: 67%; }
-        #c-root { top: 80%; }
+        #c-root   { top: 80%; }
 
-        .info-box { 
-            position: absolute; bottom: 3%; left: 50%; transform: translateX(-50%);
-            width: 85%; max-width: 320px; z-index: 20;
-            background: rgba(255, 255, 255, 0.7); border-radius: 20px; padding: 15px; 
-            box-shadow: 0 4px 15px rgba(216, 112, 147, 0.1); border: none; 
-            backdrop-filter: blur(8px); display: flex; flex-direction: column;
+        .info-box {
+            width: min(92vw, 380px);
+            margin: 0 auto;
+            z-index: 20;
+            background: rgba(255, 255, 255, 0.78);
+            border-radius: 22px;
+            padding: 15px;
+            box-shadow: 0 4px 15px rgba(216, 112, 147, 0.1);
+            border: none;
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            display: flex;
+            flex-direction: column;
         }
-        
-        .info-content { display: flex; align-items: center; margin-bottom: 12px; gap: 12px; }
+
+        .info-content {
+            display: flex;
+            align-items: center;
+            margin-bottom: 12px;
+            gap: 12px;
+        }
+
         .f-image-placeholder {
-            width: 60px; height: 60px; border-radius: 50%; background: #fdf5f7; 
-            border: 2px dashed #e7aebf; display: flex; align-items: center; justify-content: center;
-            font-size: 24px; color: #d87093; font-weight: 700; flex-shrink: 0; font-style: italic;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: #fdf5f7;
+            border: 2px dashed #e7aebf;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            color: #d87093;
+            font-weight: 700;
+            flex-shrink: 0;
+            font-style: italic;
         }
-        .f-text-group { flex-grow: 1; text-align: left; }
-        
-        .f-title-group { color: #4a4a4a; font-size: 24px; font-weight: 700; margin: 0 0 4px 0; letter-spacing: 1px; }
-        .f-title-en { color: #aaa; font-size: 14px; margin-left: 8px; font-style: italic; font-weight: 400; }
-        .f-desc { color: #555; font-size: 16px; line-height: 1.4; margin: 0; font-weight: 500;}
 
-        .btn-group { display: flex; justify-content: center; gap: 10px; }
-        .sub-btn { padding: 10px 0; width: 48%; border-radius: 20px; font-size: 15px; font-weight: bold; cursor: pointer; transition: 0.2s; border: none; }
-        .btn-home { background: #f5f5f5; color: #888; box-shadow: 0 4px 10px rgba(0,0,0,0.05); }
-        .btn-again { background: linear-gradient(135deg, #fbe3eb, #f5cdd8); color: #a86c7d; box-shadow: 0 4px 10px rgba(216,112,147,0.15); }
-        .sub-btn:active { transform: scale(0.95); }
+        .f-text-group {
+            flex-grow: 1;
+            text-align: left;
+            min-width: 0;
+        }
+
+        .f-title-group {
+            color: #4a4a4a;
+            font-size: clamp(20px, 4.6vw, 24px);
+            font-weight: 700;
+            margin: 0 0 4px 0;
+            letter-spacing: 1px;
+            line-height: 1.2;
+            word-break: break-word;
+        }
+
+        .f-title-en {
+            color: #aaa;
+            font-size: clamp(13px, 3vw, 14px);
+            margin-left: 8px;
+            font-style: italic;
+            font-weight: 400;
+        }
+
+        .f-desc {
+            color: #555;
+            font-size: clamp(15px, 3.6vw, 16px);
+            line-height: 1.45;
+            margin: 0;
+            font-weight: 500;
+        }
+
+        .btn-group {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .sub-btn {
+            padding: 10px 0;
+            width: 48%;
+            border-radius: 20px;
+            font-size: 15px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: transform 0.2s ease;
+            border: none;
+        }
+
+        .btn-home {
+            background: #f5f5f5;
+            color: #888;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+        }
+
+        .btn-again {
+            background: linear-gradient(135deg, #fbe3eb, #f5cdd8);
+            color: #a86c7d;
+            box-shadow: 0 4px 10px rgba(216,112,147,0.15);
+        }
+
+        .sub-btn:active {
+            transform: scale(0.96);
+        }
 
         /* =========================================
-           📱 RWD 手機版自動適應 (🚨神級保命版：開放滾動+瀑布流堆疊)
+           📱 手機版微調
            ========================================= */
         @media (max-width: 768px) {
-            /* 🚨 1. 解除滾動封印！保證文字絕對能滑動看到 */
-            body, html { 
-                overflow-y: auto !important; 
-                height: auto !important; 
+            .title-text {
+                top: 8%;
+                font-size: 22px;
             }
 
-            /* 第一頁微調：鎖死第一頁滿版 */
-            #scene1 { position: fixed; height: 100vh; }
-            .title-text { font-size: 22px; top: 8%; } 
-            .start-btn { font-size: 20px; padding: 12px 40px; bottom: 15%; } 
-            .flower-spirit { width: 70px; } 
+            .start-btn {
+                font-size: 20px;
+                padding: 12px 40px;
+                bottom: max(14%, calc(env(safe-area-inset-bottom, 0px) + 18px));
+            }
+
+            .flower-spirit { width: 70px; }
             .f1 { top: 25%; left: 15%; }
             .f2 { top: 30%; right: 15%; }
             .f3 { top: 50%; left: 10%; }
             .f4 { top: 55%; right: 10%; }
             .f5 { top: 40%; left: 50%; transform: translateX(-50%); }
 
-            /* 🚨 2. 第三頁改為「瀑布流堆疊」，高度彈性伸展，絕不裁切 */
-            #scene3 { 
-                position: relative; /* 解除死鎖定位 */
-                height: auto !important; 
-                min-height: 100vh; 
-                padding-top: 35px; /* 最上方留一點空間 */
-                padding-bottom: 50px; /* 底部多留白，確保滑到底時很舒服 */
-                background-attachment: fixed; /* 背景固定，滾動時不會穿幫 */
+            #scene3 {
+                padding-left: 12px;
+                padding-right: 12px;
             }
 
-            /* 💡 以下元素全部改成「相對堆疊」，由上往下排好，再也不會互相蓋住 */
-            .hint-text { 
-                position: relative; top: 0; 
-                margin-bottom: 30px; 
-                font-size: 20px; 
+            .scene3-inner {
+                max-width: 100%;
             }
-            
-            .human-body { 
-                position: relative; top: 0; 
-                transform: translateX(-50%); /* 拔除垂直死鎖，保留水平置中 */
-                width: 88%; max-width: none; /* 拔除500px封印，讓脈輪圖大到極限 */
-                margin-bottom: 30px; /* 與下方文字框的安全距離 */
+
+            .human-body {
+                width: 95vw;
+                margin-bottom: 10px;
             }
-            
-            .info-box { 
-                position: relative; bottom: 0; 
-                width: 90%; 
-                padding: 18px 15px; 
+
+            .info-box {
+                width: 92vw;
+                padding: 16px 14px;
             }
-            
-            /* 資訊框內部字體微調 */
-            .f-image-placeholder { width: 50px; height: 50px; font-size: 20px; }
-            .f-title-group { font-size: 20px; margin: 0 0 4px 0; }
-            .f-desc { font-size: 15px; line-height: 1.4; }
-            .sub-btn { font-size: 14px; padding: 8px 0; }
+
+            .f-image-placeholder {
+                width: 54px;
+                height: 54px;
+                font-size: 21px;
+            }
+
+            .sub-btn {
+                font-size: 14px;
+                padding: 8px 0;
+            }
         }
     </style>
 </head>
@@ -175,126 +379,158 @@
 
     <div id="scene1" class="stage active">
         <div class="title-text">讓花精溫柔聆聽脈輪能量</div>
-        
+
         <img src="Chakra_Flower_Project/images/flower_01.png" class="flower-spirit f1" onerror="this.style.display='none'">
         <img src="Chakra_Flower_Project/images/flower_02.png" class="flower-spirit f2" onerror="this.style.display='none'">
         <img src="Chakra_Flower_Project/images/flower_03.png" class="flower-spirit f3" onerror="this.style.display='none'">
         <img src="Chakra_Flower_Project/images/flower_04.png" class="flower-spirit f4" onerror="this.style.display='none'">
         <img src="Chakra_Flower_Project/images/flower_05.png" class="flower-spirit f5" onerror="this.style.display='none'">
-        
+
         <button class="start-btn" onclick="startMagic()">花精指引</button>
     </div>
 
     <div id="scene2" class="stage">
         <div class="loader"></div>
-        <p style="margin-top:25px; color:#d87093; font-weight: 500; font-size: 18px; letter-spacing: 2px;">正在為您凝聚脈輪能量...</p>
+        <p style="margin-top:25px; color:#d87093; font-weight:500; font-size:18px; letter-spacing:2px;">正在為您凝聚脈輪能量...</p>
     </div>
 
     <div id="scene3" class="stage">
-        <div class="hint-text">點擊脈輪 聆聽花語</div>
-        
-        <div class="human-body">
-            <img src="Chakra_Flower_Project/images/human_aura.png" class="human-img" alt="脈輪人體">
-            <div id="c-crown" class="chakra-dot" onclick="showChakra('crown')"></div>
-            <div id="c-brow" class="chakra-dot" onclick="showChakra('brow')"></div>
-            <div id="c-throat" class="chakra-dot" onclick="showChakra('throat')"></div>
-            <div id="c-heart" class="chakra-dot" onclick="showChakra('heart')"></div>
-            <div id="c-solar" class="chakra-dot" onclick="showChakra('solar')"></div>
-            <div id="c-sacral" class="chakra-dot" onclick="showChakra('sacral')"></div>
-            <div id="c-root" class="chakra-dot" onclick="showChakra('root')"></div>
-        </div>
+        <div class="scene3-inner">
+            <div class="hint-text">點擊脈輪 聆聽花語</div>
 
-        <div class="info-box">
-            <div class="info-content">
-                <div class="f-image-placeholder" id="fNumPlaceholder"></div>
-                <div class="f-text-group">
-                    <h2 id="fTitleGroup" class="f-title-group"></h2>
-                    <p id="fText" class="f-desc"></p>
-                </div>
+            <div class="human-body">
+                <img src="Chakra_Flower_Project/images/human_aura.png" class="human-img" alt="脈輪人體">
+
+                <div id="c-crown" class="chakra-dot" onclick="showChakra('crown')"></div>
+                <div id="c-brow" class="chakra-dot" onclick="showChakra('brow')"></div>
+                <div id="c-throat" class="chakra-dot" onclick="showChakra('throat')"></div>
+                <div id="c-heart" class="chakra-dot" onclick="showChakra('heart')"></div>
+                <div id="c-solar" class="chakra-dot" onclick="showChakra('solar')"></div>
+                <div id="c-sacral" class="chakra-dot" onclick="showChakra('sacral')"></div>
+                <div id="c-root" class="chakra-dot" onclick="showChakra('root')"></div>
             </div>
-            <div class="btn-group">
-                <button class="sub-btn btn-home" onclick="location.reload()">回首頁</button>
-                <button class="sub-btn btn-again" onclick="startMagic()">再次指引</button>
+
+            <div class="info-box">
+                <div class="info-content">
+                    <div class="f-image-placeholder" id="fNumPlaceholder"></div>
+                    <div class="f-text-group">
+                        <h2 id="fTitleGroup" class="f-title-group"></h2>
+                        <p id="fText" class="f-desc"></p>
+                    </div>
+                </div>
+
+                <div class="btn-group">
+                    <button class="sub-btn btn-home" onclick="goHome()">回首頁</button>
+                    <button class="sub-btn btn-again" onclick="startMagic()">再次指引</button>
+                </div>
             </div>
         </div>
     </div>
 
-<script>
-    const flowerList = [
-        { num: "01", name: "龍芽草", en: "Agrimony", text: "在平靜的笑容背後，隱藏著內心的煎熬與焦慮。" },
-        { num: "02", name: "白楊", en: "Aspen", text: "面對未知的恐懼，找回內心的安全感與勇氣。" },
-        { num: "03", name: "山毛櫸", en: "Beech", text: "練習寬容與理解，看見他人與自己的美好。" },
-        { num: "04", name: "矢車菊", en: "Centaury", text: "學會拒絕，找回自主權，不再盲目順從。" },
-        { num: "05", name: "水蕨", en: "Cerato", text: "信任直覺，不再為了尋求認可而猶豫不決。" },
-        { num: "06", name: "櫻桃李", en: "Cherry Plum", text: "放鬆緊繃的心，找回在壓力下的情緒平衡。" },
-        { num: "07", name: "栗樹芽孢", en: "Chestnut Bud", text: "從經驗中學習，避免重複同樣的錯誤模式。" },
-        { num: "08", name: "菊苣", en: "Chicory", text: "學習無私的愛，放下對他人的掌控與依賴。" },
-        { num: "09", name: "鐵線蓮", en: "Clematis", text: "腳踏實地，將夢想轉化為現實的行動力。" },
-        { num: "10", name: "海棠", en: "Crab Apple", text: "接受自己的一切，擁抱事物的不完美。" },
-        { num: "11", name: "榆樹", en: "Elm", text: "減輕過重的責任感，找回處理任務的自信。" },
-        { num: "12", name: "龍膽", en: "Gentian", text: "在挫折中保持信心，重燃克服困難的鬥志。" },
-        { num: "13", name: "金雀花", en: "Gorse", text: "找回希望，在絕境中綻放出一道微光。" },
-        { num: "14", name: "石楠", en: "Heather", text: "學習傾聽他人，從孤獨感中找回內心的充盈。" },
-        { num: "15", name: "冬青", en: "Holly", text: "用愛化解憤怒與嫉妒，找回內心的柔軟。" },
-        { num: "16", name: "忍冬", en: "Honeysuckle", text: "告別過去，擁抱現在，活在當下的每一刻。" },
-        { num: "17", name: "鵝耳櫪", en: "Hornbeam", text: "克服心理倦怠，找回面對生活的活力與熱情。" },
-        { num: "18", name: "鳳仙花", en: "Impatiens", text: "放慢腳步，培養耐心與對他人的體諒。" },
-        { num: "19", name: "落葉松", en: "Larch", text: "建立自信，相信自己具備成功的潛力。" },
-        { num: "20", name: "构酸醬", en: "Mimulus", text: "面對具體的恐懼，找回平靜而安定的勇氣。" },
-        { num: "21", name: "芥末", en: "Mustard", text: "驅散莫名的憂鬱，找回心靈深處的喜悅。" },
-        { num: "22", name: "橡樹", en: "Oak", text: "學會休息，讓疲憊的身心得到適當的修復。" },
-        { num: "23", name: "橄欖", en: "Olive", text: "深層修復身心耗竭，找回遺失的能量來源。" },
-        { num: "24", name: "松樹", en: "Pine", text: "放下罪惡或愧疚，學會寬恕自己。" },
-        { num: "25", name: "紅栗子", en: "Red Chestnut", text: "放下對親友的過度擔心，用信任取代憂慮。" },
-        { num: "26", name: "岩薔薇", en: "Rock Rose", text: "在極度恐慌中找回鎮定，平復強烈的衝擊。" },
-        { num: "27", name: "巖水", en: "Rock Water", text: "放下嚴苛的自我要求，享受生命中的彈性。" },
-        { num: "28", name: "線球草", en: "Scleranthus", text: "在選擇中不再搖擺，找回決斷的定力。" },
-        { num: "29", name: "聖星百合", en: "Star of Bethlehem", text: "安撫過往的驚嚇與創傷，修復內心的裂痕。" },
-        { num: "30", name: "甜栗子", en: "Sweet Chestnut", text: "在極度絕望中看見轉機，迎來重生的力量。" },
-        { num: "31", name: "馬鞭草", en: "Vervain", text: "適度調整熱情，學習平和地傳遞理念。" },
-        { num: "32", name: "葡萄藤", en: "Vine", text: "發揮領導力，同時尊重他人的意志與空間。" },
-        { num: "33", name: "胡桃", en: "Walnut", text: "在變動期建立勇氣，有信心邁向新人生。" },
-        { num: "34", name: "水紫羅蘭", en: "Water Violet", text: "試著不再疏離，與他人分享智慧和溫暖。" },
-        { num: "35", name: "白栗子", en: "White Chestnut", text: "停下反覆煩惱的思緒，找回平靜的心路。" },
-        { num: "36", name: "野生燕麥", en: "Wild Oat", text: "釐清人生方向，找到真正能發揮天賦的道路。" },
-        { num: "37", name: "野玫瑰", en: "Wild Rose", text: "告別消極被動，重燃對生命的熱情與喜悅。" },
-        { num: "38", name: "柳樹", en: "Willow", text: "放下怨懟與不平，掌握自己命運的舵手。" }
-    ];
+    <script>
+        const flowerList = [
+            { num: "01", name: "龍芽草", en: "Agrimony", text: "在平靜的笑容背後，隱藏著內心的煎熬與焦慮。" },
+            { num: "02", name: "白楊", en: "Aspen", text: "面對未知的恐懼，找回內心的安全感與勇氣。" },
+            { num: "03", name: "山毛櫸", en: "Beech", text: "練習寬容與理解，看見他人與自己的美好。" },
+            { num: "04", name: "矢車菊", en: "Centaury", text: "學會拒絕，找回自主權，不再盲目順從。" },
+            { num: "05", name: "水蕨", en: "Cerato", text: "信任直覺，不再為了尋求認可而猶豫不決。" },
+            { num: "06", name: "櫻桃李", en: "Cherry Plum", text: "放鬆緊繃的心，找回在壓力下的情緒平衡。" },
+            { num: "07", name: "栗樹芽孢", en: "Chestnut Bud", text: "從經驗中學習，避免重複同樣的錯誤模式。" },
+            { num: "08", name: "菊苣", en: "Chicory", text: "學習無私的愛，放下對他人的掌控與依賴。" },
+            { num: "09", name: "鐵線蓮", en: "Clematis", text: "腳踏實地，將夢想轉化為現實的行動力。" },
+            { num: "10", name: "海棠", en: "Crab Apple", text: "接受自己的一切，擁抱事物的不完美。" },
+            { num: "11", name: "榆樹", en: "Elm", text: "減輕過重的責任感，找回處理任務的自信。" },
+            { num: "12", name: "龍膽", en: "Gentian", text: "在挫折中保持信心，重燃克服困難的鬥志。" },
+            { num: "13", name: "金雀花", en: "Gorse", text: "找回希望，在絕境中綻放出一道微光。" },
+            { num: "14", name: "石楠", en: "Heather", text: "學習傾聽他人，從孤獨感中找回內心的充盈。" },
+            { num: "15", name: "冬青", en: "Holly", text: "用愛化解憤怒與嫉妒，找回內心的柔軟。" },
+            { num: "16", name: "忍冬", en: "Honeysuckle", text: "告別過去，擁抱現在，活在當下的每一刻。" },
+            { num: "17", name: "鵝耳櫪", en: "Hornbeam", text: "克服心理倦怠，找回面對生活的活力與熱情。" },
+            { num: "18", name: "鳳仙花", en: "Impatiens", text: "放慢腳步，培養耐心與對他人的體諒。" },
+            { num: "19", name: "落葉松", en: "Larch", text: "建立自信，相信自己具備成功的潛力。" },
+            { num: "20", name: "构酸醬", en: "Mimulus", text: "面對具體的恐懼，找回平靜而安定的勇氣。" },
+            { num: "21", name: "芥末", en: "Mustard", text: "驅散莫名的憂鬱，找回心靈深處的喜悅。" },
+            { num: "22", name: "橡樹", en: "Oak", text: "學會休息，讓疲憊的身心得到適當的修復。" },
+            { num: "23", name: "橄欖", en: "Olive", text: "深層修復身心耗竭，找回遺失的能量來源。" },
+            { num: "24", name: "松樹", en: "Pine", text: "放下罪惡或愧疚，學會寬恕自己。" },
+            { num: "25", name: "紅栗子", en: "Red Chestnut", text: "放下對親友的過度擔心，用信任取代憂慮。" },
+            { num: "26", name: "岩薔薇", en: "Rock Rose", text: "在極度恐慌中找回鎮定，平復強烈的衝擊。" },
+            { num: "27", name: "巖水", en: "Rock Water", text: "放下嚴苛的自我要求，享受生命中的彈性。" },
+            { num: "28", name: "線球草", en: "Scleranthus", text: "在選擇中不再搖擺，找回決斷的定力。" },
+            { num: "29", name: "聖星百合", en: "Star of Bethlehem", text: "安撫過往的驚嚇與創傷，修復內心的裂痕。" },
+            { num: "30", name: "甜栗子", en: "Sweet Chestnut", text: "在極度絕望中看見轉機，迎來重生的力量。" },
+            { num: "31", name: "馬鞭草", en: "Vervain", text: "適度調整熱情，學習平和地傳遞理念。" },
+            { num: "32", name: "葡萄藤", en: "Vine", text: "發揮領導力，同時尊重他人的意志與空間。" },
+            { num: "33", name: "胡桃", en: "Walnut", text: "在變動期建立勇氣，有信心邁向新人生。" },
+            { num: "34", name: "水紫羅蘭", en: "Water Violet", text: "試著不再疏離，與他人分享智慧和溫暖。" },
+            { num: "35", name: "白栗子", en: "White Chestnut", text: "停下反覆煩惱的思緒，找回平靜的心路。" },
+            { num: "36", name: "野生燕麥", en: "Wild Oat", text: "釐清人生方向，找到真正能發揮天賦的道路。" },
+            { num: "37", name: "野玫瑰", en: "Wild Rose", text: "告別消極被動，重燃對生命的熱情與喜悅。" },
+            { num: "38", name: "柳樹", en: "Willow", text: "放下怨懟與不平，掌握自己命運的舵手。" }
+        ];
 
-    let currentSessionFlowers = {};
-    const parts = ['crown', 'brow', 'throat', 'heart', 'solar', 'sacral', 'root'];
+        const parts = ['crown', 'brow', 'throat', 'heart', 'solar', 'sacral', 'root'];
+        let currentSessionFlowers = {};
 
-    function startMagic() {
-        document.getElementById('scene1').style.display = 'none';
-        document.getElementById('scene3').style.display = 'none';
-        
-        document.getElementById('scene2').style.display = 'flex'; 
-        
-        setTimeout(() => {
-            document.getElementById('scene2').style.display = 'none';
-            document.getElementById('scene3').style.display = 'block'; 
-            
-            let shuffled = [...flowerList].sort(() => 0.5 - Math.random());
-            currentSessionFlowers = {
-                'crown': shuffled[0], 'brow': shuffled[1], 'throat': shuffled[2],
-                'heart': shuffled[3], 'solar': shuffled[4], 'sacral': shuffled[5], 'root': shuffled[6]
-            };
-            
-            showChakra('crown'); 
-        }, 2200);
-    }
+        const scene1 = document.getElementById('scene1');
+        const scene2 = document.getElementById('scene2');
+        const scene3 = document.getElementById('scene3');
 
-    function showChakra(part) {
-        const flower = currentSessionFlowers[part];
-        
-        document.getElementById('fNumPlaceholder').innerText = flower.num;
-        document.getElementById('fTitleGroup').innerHTML = `${flower.name}<span class="f-title-en">${flower.en}</span>`; 
-        document.getElementById('fText').innerText = flower.text;
+        function switchScene(targetId) {
+            [scene1, scene2, scene3].forEach(scene => scene.classList.remove('active'));
+            document.getElementById(targetId).classList.add('active');
+        }
 
-        parts.forEach(p => document.getElementById(`c-${p}`).classList.remove('active-chakra'));
-        
-        document.getElementById(`c-${part}`).classList.add('active-chakra');
-    }
-</script>
+        function shuffleArray(array) {
+            const arr = [...array];
+            for (let i = arr.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [arr[i], arr[j]] = [arr[j], arr[i]];
+            }
+            return arr;
+        }
+
+        function startMagic() {
+            switchScene('scene2');
+
+            setTimeout(() => {
+                const shuffled = shuffleArray(flowerList);
+
+                currentSessionFlowers = {
+                    crown:  shuffled[0],
+                    brow:   shuffled[1],
+                    throat: shuffled[2],
+                    heart:  shuffled[3],
+                    solar:  shuffled[4],
+                    sacral: shuffled[5],
+                    root:   shuffled[6]
+                };
+
+                switchScene('scene3');
+                scene3.scrollTo({ top: 0, behavior: 'auto' });
+                showChakra('crown');
+            }, 2200);
+        }
+
+        function showChakra(part) {
+            const flower = currentSessionFlowers[part];
+            if (!flower) return;
+
+            document.getElementById('fNumPlaceholder').innerText = flower.num;
+            document.getElementById('fTitleGroup').innerHTML =
+                `${flower.name}<span class="f-title-en">${flower.en}</span>`;
+            document.getElementById('fText').innerText = flower.text;
+
+            parts.forEach(p => {
+                document.getElementById(`c-${p}`).classList.remove('active-chakra');
+            });
+
+            document.getElementById(`c-${part}`).classList.add('active-chakra');
+        }
+
+        function goHome() {
+            switchScene('scene1');
+        }
+    </script>
 </body>
 </html>
