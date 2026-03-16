@@ -5,16 +5,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>當花精與脈輪相遇</title>
     
-    <link rel="icon" type="image/png" href="favicon.png?v=5" sizes="512x512">
+    <link rel="icon" type="image/png" href="favicon.png?v=6" sizes="512x512">
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700&display=swap" rel="stylesheet">
     <style>
-        /* 💡 修正手機版 100vh 陷阱，改用絕對安全的 100% 滿版定位 */
+        /* 滿版定位，解決手機版底部裁切 */
         body, html { margin: 0; padding: 0; width: 100%; height: 100%; overflow: hidden; font-family: 'Noto Sans TC', sans-serif; background-color: #000; }
         .stage { width: 100%; height: 100%; position: absolute; top: 0; left: 0; display: none; background-size: cover; background-position: center; }
         .active { display: block; }
 
         /* =========================================
-           🌸 第一頁：開場
+           🌸 第一頁：開場 (首頁整體排版優化)
            ========================================= */
         #scene1 { background-image: url('Chakra_Flower_Project/images/bg_start.jpg'); background-color: #ffeef2; background-position: top center; }
         
@@ -47,9 +47,13 @@
         .f5 { top: 48%; left: 50%; transform: translateX(-50%); animation: float-in 1.2s forwards 1.8s, float-continuous 4s infinite ease-in-out 3.0s; }
 
         /* =========================================
-           ⏳ 第二頁：Loading
+           ⏳ 第二頁：Loading 
+           💡 修正重點：拿掉 display: flex; 讓它乖乖隱藏，等點擊後再喚醒
            ========================================= */
-        #scene2 { background: radial-gradient(circle, #ffffff 15%, #ffe4e9 100%); display: flex; flex-direction: column; align-items: center; justify-content: center; }
+        #scene2 { 
+            background: radial-gradient(circle, #ffffff 15%, #ffe4e9 100%); 
+            flex-direction: column; align-items: center; justify-content: center; 
+        }
         .loader { width: 60px; height: 60px; border: 5px solid #fae1e8; border-top: 5px solid #d87093; border-radius: 50%; animation: spin 1s linear infinite; }
         @keyframes spin { to { transform: rotate(360deg); } }
 
@@ -110,12 +114,10 @@
         .sub-btn:active { transform: scale(0.95); }
 
         /* =========================================
-           📱 RWD 手機版自動適應 (確保不裁切)
+           📱 RWD 手機版自動適應
            ========================================= */
         @media (max-width: 768px) {
             .title-text { font-size: 22px; top: 8%; } 
-            
-            /* 💡 手機版按鈕大舉往上提，避開安全區 */
             .start-btn { font-size: 20px; padding: 12px 40px; bottom: 18%; } 
             
             .flower-spirit { width: 70px; } 
@@ -126,11 +128,7 @@
             .f5 { top: 40%; left: 50%; transform: translateX(-50%); }
 
             .hint-text { font-size: 18px; top: 5%; }
-            
-            /* 💡 手機版人體圖縮小並往上提，空出底部空間 */
             .human-body { top: 38%; width: 75%; } 
-            
-            /* 💡 手機版資訊框往上提，保證按鈕完整出現 */
             .info-box { width: 92%; bottom: 6%; padding: 12px; } 
             
             .f-title-group { font-size: 20px; }
@@ -235,6 +233,8 @@
     function startMagic() {
         document.getElementById('scene1').style.display = 'none';
         document.getElementById('scene3').style.display = 'none';
+        
+        /* 點擊按鈕後，這裡才會把隱形的 Loading 頁叫出來並排版 */
         document.getElementById('scene2').style.display = 'flex'; 
         
         setTimeout(() => {
