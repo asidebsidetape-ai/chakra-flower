@@ -212,68 +212,39 @@ linear-gradient(135deg, #fbe3eb, #f5cdd8); color: #a86c7d; box-shadow: 0 4px
 
  
 
-       /* =========================================
+      /* =========================================
+           📱 RWD 手機版自動適應 (確保不裁切、放大脈輪圖)
+           ========================================= */
+        @media (max-width: 768px) {
+            /* 第一頁微調 */
+            .title-text { font-size: 22px; top: 8%; } 
+            .start-btn { font-size: 20px; padding: 12px 40px; bottom: 18%; } 
+            
+            .flower-spirit { width: 70px; } 
+            .f1 { top: 25%; left: 15%; }
+            .f2 { top: 30%; right: 15%; }
+            .f3 { top: 50%; left: 10%; }
+            .f4 { top: 55%; right: 10%; }
+            .f5 { top: 40%; left: 50%; transform: translateX(-50%); }
 
-          📱 RWD 手機版自動適應 (確保不裁切)
-
-          ========================================= */
-
-       @media (max-width: 768px) {
-
-           .title-text { font-size: 22px; top: 8%; }
-
-           
-
-           /* 💡 手機版按鈕大舉往上提，避開安全區 */
-
-           .start-btn { font-size: 20px; padding: 12px 40px; bottom: 18%; }
-
-           
-
-           .flower-spirit { width: 70px; }
-
-           .f1 { top: 25%; left: 15%; }
-
-           .f2 { top: 30%; right: 15%; }
-
-           .f3 { top: 50%; left: 10%; }
-
-           .f4 { top: 55%; right: 10%; }
-
-           .f5 { top: 40%; left: 50%; transform: translateX(-50%); }
-
- 
-
-           .hint-text { font-size: 18px; top: 5%; }
-
-           
-
-           /* 💡 手機版人體圖縮小並往上提，空出底部空間 */
-
-           .human-body { top: 38%; width: 75%; }
-
-           
-
-            /* 💡 手機版資訊框往上提，保證按鈕完整出現 */
-
-           .info-box { width: 92%; bottom: 6%; padding: 12px; }
-
-           
-
-           .f-title-group { font-size: 20px; }
-
-           .f-desc { font-size: 15px; }
-
-           .sub-btn { font-size: 14px; padding: 8px 0; }
-
-       }
-
-   </style>
-
+            /* 第三頁微調 */
+            .hint-text { font-size: 18px; top: 5%; }
+            
+            /* 💡 1 & 2. 脈輪圖放大到極限，光點會自動跟著完美放大對齊 */
+            .human-body { top: 41%; width: 92%; } 
+            
+            /* 💡 3. 資訊框極致壓縮：減少內邊距與圖示大小，騰出空間確保文字絕不裁切 */
+            .info-box { width: 92%; bottom: 4%; padding: 10px 12px; } 
+            .info-content { margin-bottom: 8px; gap: 10px; }
+            .f-image-placeholder { width: 50px; height: 50px; font-size: 20px; }
+            
+            .f-title-group { font-size: 19px; margin: 0 0 2px 0; }
+            .f-desc { font-size: 15px; line-height: 1.35; }
+            .sub-btn { font-size: 14px; padding: 8px 0; }
+        }
+    </style>
 </head>
-
 <body>
-
  
 
    <div id="scene1" class="stage active">
