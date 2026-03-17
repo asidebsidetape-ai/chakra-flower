@@ -236,6 +236,15 @@
             align-items: center;
             justify-content: space-between;
             padding: 0 clamp(2px, 1vw, 8px);
+
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.25s ease, visibility 0.25s ease;
+        }
+
+        .chakra-row.active-label {
+            opacity: 1;
+            visibility: visible;
         }
 
         .chakra-label-pill {
@@ -519,31 +528,31 @@
                 <img src="Chakra_Flower_Project/images/human_aura.png" class="human-img" alt="脈輪人體">
 
                 <div class="chakra-labels" aria-hidden="true">
-                    <div class="chakra-row row-crown">
+                    <div class="chakra-row row-crown" data-part="crown">
                         <span class="chakra-label-pill chakra-label-left">頂輪</span>
                         <span class="chakra-label-pill chakra-label-right">智慧、淨化</span>
                     </div>
-                    <div class="chakra-row row-brow">
+                    <div class="chakra-row row-brow" data-part="brow">
                         <span class="chakra-label-pill chakra-label-left">眉心輪</span>
                         <span class="chakra-label-pill chakra-label-right">覺察、靈感力</span>
                     </div>
-                    <div class="chakra-row row-throat">
+                    <div class="chakra-row row-throat" data-part="throat">
                         <span class="chakra-label-pill chakra-label-left">喉輪</span>
                         <span class="chakra-label-pill chakra-label-right">表達、溝通</span>
                     </div>
-                    <div class="chakra-row row-heart">
+                    <div class="chakra-row row-heart" data-part="heart">
                         <span class="chakra-label-pill chakra-label-left">心輪</span>
                         <span class="chakra-label-pill chakra-label-right">愛、同理</span>
                     </div>
-                    <div class="chakra-row row-solar">
+                    <div class="chakra-row row-solar" data-part="solar">
                         <span class="chakra-label-pill chakra-label-left">胃輪</span>
                         <span class="chakra-label-pill chakra-label-right">勇氣、意志</span>
                     </div>
-                    <div class="chakra-row row-sacral">
+                    <div class="chakra-row row-sacral" data-part="sacral">
                         <span class="chakra-label-pill chakra-label-left">臍輪</span>
                         <span class="chakra-label-pill chakra-label-right">性、熱情</span>
                     </div>
-                    <div class="chakra-row row-root">
+                    <div class="chakra-row row-root" data-part="root">
                         <span class="chakra-label-pill chakra-label-left">海底輪</span>
                         <span class="chakra-label-pill chakra-label-right">生存、安全感</span>
                     </div>
@@ -638,6 +647,24 @@
             return arr;
         }
 
+        function hideAllChakraLabels() {
+            document.querySelectorAll('.chakra-row').forEach(row => {
+                row.classList.remove('active-label');
+            });
+        }
+
+        function clearActiveChakraDots() {
+            parts.forEach(p => {
+                document.getElementById(`c-${p}`).classList.remove('active-chakra');
+            });
+        }
+
+        function clearInfoBox() {
+            document.getElementById('fNumPlaceholder').innerText = '';
+            document.getElementById('fTitleGroup').innerHTML = '';
+            document.getElementById('fText').innerText = '';
+        }
+
         function startMagic() {
             switchScene('scene2');
 
@@ -656,7 +683,10 @@
 
                 switchScene('scene3');
                 scene3.scrollTo({ top: 0, behavior: 'auto' });
-                showChakra('crown');
+
+                hideAllChakraLabels();
+                clearActiveChakraDots();
+                clearInfoBox();
             }, 2200);
         }
 
@@ -669,11 +699,15 @@
                 `${flower.name}<span class="f-title-en">${flower.en}</span>`;
             document.getElementById('fText').innerText = flower.text;
 
-            parts.forEach(p => {
-                document.getElementById(`c-${p}`).classList.remove('active-chakra');
-            });
+            clearActiveChakraDots();
+            hideAllChakraLabels();
 
             document.getElementById(`c-${part}`).classList.add('active-chakra');
+
+            const activeRow = document.querySelector(`.chakra-row[data-part="${part}"]`);
+            if (activeRow) {
+                activeRow.classList.add('active-label');
+            }
         }
 
         function goHome() {
